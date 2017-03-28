@@ -15,4 +15,5 @@ public:
     vec3 B;
 };
 
+vec3 random_in_unit_sphere();
 #endif // RAY_H

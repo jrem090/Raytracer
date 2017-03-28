@@ -26,4 +26,5 @@ bool surface_list::hit(const ray &r, float t_min, float t_max, hit_record &rec) 
             rec = temp_rec;
         }
     }
+    return hit_anything;
 }

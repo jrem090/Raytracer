@@ -24,7 +24,11 @@ HEADERS  += mainwindow.h \
     ray.h \
     surface.h \
     sphere.h \
-    surface_list.h
+    surface_list.h \
+    camera.h \
+    material.h \
+    lambertian.h \
+    metal.h
 
 FORMS    += mainwindow.ui
 
