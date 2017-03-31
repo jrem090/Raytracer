@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "lambertian.h"
 #include "metal.h"
+#include "dielectric.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -20,11 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    blue = .02;
+
     connect(ui->pushButton, SIGNAL(pressed()),
             this, SLOT(raytrace()));
-    connect(ui->blue_slide, SIGNAL(sliderMoved(int)),
-            this,SLOT(updateBlue(int)));
 }
 
 MainWindow::~MainWindow()
@@ -70,14 +69,61 @@ void MainWindow::raytrace()
         int nx = ui->widget->width();
         int ny = ui->widget->height();
 
-        surface *list[4];
-        list[0] = new sphere(vec3(0,0,-1),0.5,new lambertian(vec3(0.2,0.5,0.8)));
-        list[1] = new sphere(vec3(0,-100.5,-1.5),100,new lambertian(vec3(0.2,0.8,0.3)));
-        list[2] = new sphere(vec3(1,0,-1),0.5,new metal(vec3(0.2,0.5,0.4)));
-        list[3] = new sphere(vec3(-1,0,-1),0.5,new metal(vec3(0.5,0.5,0.5)));
-        surface_list *world = new surface_list(list,4);
+        int number_of_balls = ui->num_diffuse->value()
+                            + ui->num_glass->value()*2
+                            + ui->num_metal->value() + 1;
 
-        camera cam;
+        surface *list[number_of_balls];
+        surface_list *world = new surface_list(list,number_of_balls);
+        list[0] = new sphere(vec3(0,-100.5,-1),100,
+                                     new lambertian(vec3(0.2,0.8,0.3)));
+        int i = 1;
+        int next_max = ui->num_diffuse->value();
+        while(i <= next_max)
+        {
+            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4);
+            vec3 color((float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX);
+            list[i] = new sphere(location,0.5, new lambertian(color));
+            ++i;
+        }
+
+        next_max = next_max + 2 * ui->num_glass->value();
+        while(i <= next_max)
+        {
+            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4);
+            list[i] = new sphere(location,0.5, new dielectric(vec3(1.0,1.0,1.0)));
+            ++i;
+            list[i] = new sphere(location,0.45, new dielectric(vec3(1.0,1.0,1.0)));
+            ++i;
+        }
+
+        next_max = next_max + ui->num_metal->value();
+        while(i <= next_max)
+        {
+            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4);
+            vec3 color((float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX);
+            list[i] = new sphere(location,0.5, new metal(color));
+            ++i;
+        }
+
+        vec3 camera_center = vec3(ui->camera_x->value(),
+                                  ui->camera_y->value(),
+                                  ui->camera_z->value());
+        vec3 look_at       = vec3(ui->point_x->value(),
+                                  ui->point_y->value(),
+                                  ui->point_z->value());
+        camera cam(camera_center,look_at,vec3(0,1,0),
+                   90,float(nx)/float(ny),.01,(camera_center-look_at).length());
 
         //setup header for PPM file
         stream << "P3\n" << nx << " " << ny << "\n255\n";
@@ -87,7 +133,7 @@ void MainWindow::raytrace()
             for(int i = 0; i <nx; i++)
             {
 
-                int aa_samples = 50;
+                int aa_samples = ui->num_samples->value();
                 vec3 col(0,0,0);
                 for(int g = 0; g < aa_samples; g++)
                 {
@@ -118,11 +164,4 @@ void MainWindow::raytrace()
     file.close();
 
     ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
-}
-
-
-
-void MainWindow::updateBlue(int new_blue)
-{
-    blue = float(new_blue)/100;
 }

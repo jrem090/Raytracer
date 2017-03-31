@@ -20,11 +20,18 @@ public:
 
 public slots:
     void raytrace();
-    void updateBlue(int new_blue);
+
 
 private:
     Ui::MainWindow *ui;
-    float blue;
+
+    vec3  look_at;
+    vec3  look_from;
+
+    unsigned int num_diffuse;
+    unsigned int num_glass;
+    unsigned int num_metal;
+
 };
 
 #endif // MAINWINDOW_H

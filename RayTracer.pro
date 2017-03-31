@@ -28,7 +28,8 @@ HEADERS  += mainwindow.h \
     camera.h \
     material.h \
     lambertian.h \
-    metal.h
+    metal.h \
+    dielectric.h
 
 FORMS    += mainwindow.ui
 
