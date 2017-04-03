@@ -15,7 +15,6 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-//     vec3 random_in_unit_sphere();
     ~MainWindow();
 
 public slots:

@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     vec3.cpp \
     ray.cpp \
     sphere.cpp \
-    surface_list.cpp
+    surface_list.cpp \
+    camera.cpp \
+    utilities.cpp
 
 HEADERS  += mainwindow.h \
     vec3.h \
@@ -29,7 +31,8 @@ HEADERS  += mainwindow.h \
     material.h \
     lambertian.h \
     metal.h \
-    dielectric.h
+    dielectric.h \
+    utilities.h
 
 FORMS    += mainwindow.ui
 

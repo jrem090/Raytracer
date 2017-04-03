@@ -2,17 +2,25 @@
 #define METAL_H
 
 #include "material.h"
+#include "utilities.h"
 
-vec3 reflect(const vec3& v, const vec3& n)
-{
-    return v - 2 * dot(v,n)*n;
-}
 
+/**
+ * @brief The dielectric class
+ * This class describes a material that reflects light/rays.
+ */
 class metal : public material
 {
 public:
+
+    /**
+     * @brief metal
+     * @param a vec3 defining albedo
+     * @param f float describing fuzziness [0,1]
+     */
     metal(const vec3& a, float f = 0) : albedo(a)
     {
+        //sanitize inputs
         if(f>1)
         {
             fuzz = 1;
@@ -24,6 +32,16 @@ public:
         else
             fuzz = f;
     }
+
+
+    /**
+     * @brief scatter
+     * @param r_in stored ray
+     * @param rec stored hit record
+     * @param attenuation stored light
+     * @param scattered stored ray
+     * @return
+     */
     virtual bool scatter(const ray &r_in, const hit_record &rec, vec3 &attenuation, ray &scattered) const
     {
 

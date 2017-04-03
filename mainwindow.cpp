@@ -14,6 +14,7 @@
 #include "lambertian.h"
 #include "metal.h"
 #include "dielectric.h"
+#include "utilities.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -36,7 +37,6 @@ vec3 color(const ray& r, surface *world, int depth)
 {
     hit_record rec;
     int max_depth = 20;
-//    if(world->hit((r,0.0, MAXFLOAT, rec))
     if(world->hit(r,0.0001, FLT_MAX, rec))
     {
         ray scattered;
@@ -99,7 +99,7 @@ void MainWindow::raytrace()
                           (((float)rand()/(float)RAND_MAX)-.5)*4);
             list[i] = new sphere(location,0.5, new dielectric(vec3(1.0,1.0,1.0)));
             ++i;
-            list[i] = new sphere(location,0.45, new dielectric(vec3(1.0,1.0,1.0)));
+            list[i] = new sphere(location,-0.45, new dielectric(vec3(1.0,1.0,1.0)));
             ++i;
         }
 
@@ -132,25 +132,20 @@ void MainWindow::raytrace()
         {
             for(int i = 0; i <nx; i++)
             {
-
                 int aa_samples = ui->num_samples->value();
                 vec3 col(0,0,0);
                 for(int g = 0; g < aa_samples; g++)
                 {
-
                     srand(j*i*g);
                     float u = (float(i + (float)rand()/(float)RAND_MAX)) / float(nx);
                     float v = (float(j + (float)rand()/(float)RAND_MAX)) / float(ny);
-//                    if(i == 10 && j == 10)
-//                        std::cout << "u: " << u << "  ";
+
                     ray r = cam.get_ray(u,v);
-                    vec3 p   = r.point_at_parameter(2.0);
+//                    vec3 p   = r.point_at_parameter(2.0);
                     col += color(r,world,0);
 
                 }
-//                if(i == 10 && j == 10)
-//                    std::cout << std::endl;
-//                std::cout << std::endl;
+
                 col /= aa_samples;
                 col = vec3(sqrt(col[0]),sqrt(col[1]),sqrt(col[2]));
                 int ir = int(255.99*col[0]);

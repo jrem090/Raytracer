@@ -41,6 +41,10 @@ public:
 
 };
 
+//=========================================================================
+//                          INLINE    FUNCTIONS
+//=========================================================================
+
 inline vec3& vec3::operator +=(const vec3 &v)
 {
     e[0] += v.e[0];
@@ -108,9 +112,6 @@ inline void vec3::make_unit_vector()
     e[1] *= k;
     e[2] *= k;
 }
-
-
-
 
 inline vec3 operator+(const vec3 &v1, const vec3 &v2)
 {

@@ -2,31 +2,8 @@
 #define DIELECTRIC_H
 
 #include "material.h"
+#include "utilities.h"
 
-//vec3 reflect(const vec3& v, const vec3& n)
-//{
-//    return v - 2 * dot(v,n)*n;
-//}
-
-bool refract(const vec3& v,
-             const vec3& n,
-             float ni_over_nt,
-             vec3& refracted)
-{
-    vec3 uv  = unit_vector(v);
-    float dt = dot(uv, n);
-
-    float discriminant = 1.0 - ni_over_nt * ni_over_nt
-            * (1-dt*dt);
-    if(discriminant > 0)
-    {
-        refracted = ni_over_nt*(uv - n*dt) -
-                n * sqrt(discriminant);
-        return true;
-    }
-    else
-        return false;
-}
 
 /**
  * @brief schlick Function approximating reflectivity of glass at varying angles
@@ -41,21 +18,36 @@ float schlick(float cosine, float ref_idx)
     return r0 + (1-r0)*pow((1-cosine),5);
 }
 
+/**
+ * @brief The dielectric class
+ * This class describes a material that reflects and refracts light/rays.
+ * An example would be glass.
+ */
 class dielectric : public material
 {
     public:
-    dielectric(const vec3& a, float f = 1.1) : albedo(a),ref_idx(f)
-    {
-//        if(ref_idx <= 0)
-//            ref_idx = 0.0001;
-    }
+    /**
+     * @brief dielectric constructor
+     * @param a albedo
+     * @param f refractive index
+     */
+    dielectric(const vec3& a, float f = 1.1) : albedo(a),ref_idx(f){}
 
+    /**
+     * @brief scatter
+     * @param r_in stored ray
+     * @param rec stored hit record
+     * @param attenuation stored light
+     * @param scattered stored ray
+     * @return
+     */
     virtual bool scatter(const ray &r_in,
                          const hit_record &rec,
                          vec3 &attenuation,
                          ray &scattered) const
     {
 
+        //define parameters
         vec3 outward_normal = rec.normal;
         vec3 reflected      = reflect(r_in.direction(), rec.normal);
         float ni_over_nt;
@@ -63,6 +55,8 @@ class dielectric : public material
         vec3 refracted;
         float reflect_prob;
         float cosine;
+
+        //handle ray input directions(going into object, coming out of object
         if(dot(r_in.direction(), rec.normal)>0)
         {
             outward_normal = -rec.normal;
@@ -77,6 +71,8 @@ class dielectric : public material
             cosine         = -dot(r_in.direction(), rec.normal) /
                                 r_in.direction().length();
         }
+
+        // calculate probability ray is reflected
         if(refract(r_in.direction(), outward_normal, ni_over_nt,refracted))
         {
             reflect_prob = schlick(cosine, ref_idx);
@@ -86,9 +82,10 @@ class dielectric : public material
             scattered    = ray(rec.p,reflected);
             reflect_prob = 1.0;
         }
-        if(((float)rand()/(float)RAND_MAX) < reflect_prob)
+
+        //using probablility generated, reflect or refract ray
+        if(unit_random() < reflect_prob)
         {
-            //std::cout << "reflect";
             scattered    = ray(rec.p,reflected);
         }
         else
@@ -99,6 +96,7 @@ class dielectric : public material
         return true;
 
     }
+
     float ref_idx;
     vec3 albedo;
 };

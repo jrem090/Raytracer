@@ -22,6 +22,8 @@ bool sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     float b = 2*dot(oc, r.direction());
     float c = dot(oc,oc) - (radius *  radius);
     float discriminant = b*b - 4*a*c;
+
+    //if discriminant is greater than 0 the ray hits the target
     if(discriminant > 0)
     {
         float temp = (-b - sqrt(discriminant))/(2*a);

@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\vec3.o
+./release\ray.o
+./release\sphere.o
+./release\surface_list.o
+./release\camera.o
+./release\utilities.o
+./release\qrc_qmake_qmake_immediate.o
+./release\moc_mainwindow.o
+);
