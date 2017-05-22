@@ -1,9 +1,12 @@
 #include "camera.h"
 #include "utilities.h"
 
-camera::camera(vec3 camera_center,vec3 look_at_point, vec3 vup,
-       float vfov, float aspect, float aperature, float focus_dist)
+camera::camera(vec3 camera_center, vec3 look_at_point, vec3 vup,
+       float vfov, float aspect, float aperature,
+               float focus_dist, float t0, float t1)
 {
+    time0 = t0;
+    time1 = t1;
     lens_radius = aperature/2;
     float theta = vfov * M_PI/180; //convert to radians
     float half_height = tan(theta/2);
@@ -28,6 +31,7 @@ ray camera::get_ray(float s, float t)
 {
     vec3 rd     = lens_radius * random_in_unit_disk();
     vec3 offset = u* rd.x() + v * rd.y();
+    float time  = time0 + unit_random()*(time1 - time0);
     return ray(origin + offset,
-               lower_left_corner + s*horizontal+t*vertical-origin-offset);
+               lower_left_corner + s*horizontal+t*vertical-origin-offset,time);
 }

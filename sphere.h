@@ -31,9 +31,9 @@ public:
      */
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
 
+    float radius;
     material* mat;
     vec3 center;
-    float radius;
 };
 
 #endif // SPHERE_H

@@ -9,6 +9,7 @@
 #include "ui_mainwindow.h"
 
 #include "sphere.h"
+#include "moving_sphere.h"
 #include "surface_list.h"
 #include "camera.h"
 #include "lambertian.h"
@@ -71,13 +72,28 @@ void MainWindow::raytrace()
 
         int number_of_balls = ui->num_diffuse->value()
                             + ui->num_glass->value()*2
-                            + ui->num_metal->value() + 1;
+                            + ui->num_metal->value() +
+                            + 3; //motion
 
         surface *list[number_of_balls];
         surface_list *world = new surface_list(list,number_of_balls);
         list[0] = new sphere(vec3(0,-100.5,-1),100,
                                      new lambertian(vec3(0.2,0.8,0.3)));
         int i = 1;
+        for(int j = i; j < 5; ++j)
+        {
+            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4);
+            vec3 location2((((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4,
+                          (((float)rand()/(float)RAND_MAX)-.5)*4);
+            vec3 color((float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX);
+            list[i] = new moving_sphere(location,location2, 0.5, 0,1,new lambertian(color));
+            ++i;
+        }
         int next_max = ui->num_diffuse->value();
         while(i <= next_max)
         {
@@ -123,7 +139,7 @@ void MainWindow::raytrace()
                                   ui->point_y->value(),
                                   ui->point_z->value());
         camera cam(camera_center,look_at,vec3(0,1,0),
-                   90,float(nx)/float(ny),.01,(camera_center-look_at).length());
+                   90,float(nx)/float(ny),.01,(camera_center-look_at).length(),0,1);
 
         //setup header for PPM file
         stream << "P3\n" << nx << " " << ny << "\n255\n";

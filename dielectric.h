@@ -79,18 +79,18 @@ class dielectric : public material
         }
         else
         {
-            scattered    = ray(rec.p,reflected);
+            scattered    = ray(rec.p,reflected, r_in.time());
             reflect_prob = 1.0;
         }
 
         //using probablility generated, reflect or refract ray
         if(unit_random() < reflect_prob)
         {
-            scattered    = ray(rec.p,reflected);
+            scattered    = ray(rec.p,reflected, r_in.time());
         }
         else
         {
-            scattered    = ray(rec.p,refracted);
+            scattered    = ray(rec.p,refracted, r_in.time());
         }
 
         return true;

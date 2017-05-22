@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     sphere.cpp \
     surface_list.cpp \
     camera.cpp \
-    utilities.cpp
+    utilities.cpp \
+    moving_sphere.cpp
 
 HEADERS  += mainwindow.h \
     vec3.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     lambertian.h \
     metal.h \
     dielectric.h \
-    utilities.h
+    utilities.h \
+    moving_sphere.h
 
 FORMS    += mainwindow.ui
 

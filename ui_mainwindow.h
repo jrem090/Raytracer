@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -58,6 +59,12 @@ public:
     QLabel *label_12;
     QLabel *label_13;
     QLabel *label_14;
+    QLabel *label_15;
+    QSlider *num_samples_2;
+    QCheckBox *checkBox;
+    QLabel *label_16;
+    QLabel *label_17;
+    QDoubleSpinBox *camera_z_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -66,7 +73,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(454, 495);
+        MainWindow->resize(454, 532);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         pushButton = new QPushButton(centralWidget);
@@ -175,6 +182,31 @@ public:
         label_14 = new QLabel(centralWidget);
         label_14->setObjectName(QStringLiteral("label_14"));
         label_14->setGeometry(QRect(260, 320, 61, 20));
+        label_15 = new QLabel(centralWidget);
+        label_15->setObjectName(QStringLiteral("label_15"));
+        label_15->setGeometry(QRect(10, 440, 71, 20));
+        num_samples_2 = new QSlider(centralWidget);
+        num_samples_2->setObjectName(QStringLiteral("num_samples_2"));
+        num_samples_2->setGeometry(QRect(80, 440, 111, 22));
+        num_samples_2->setMinimum(1);
+        num_samples_2->setMaximum(100);
+        num_samples_2->setValue(10);
+        num_samples_2->setOrientation(Qt::Horizontal);
+        checkBox = new QCheckBox(centralWidget);
+        checkBox->setObjectName(QStringLiteral("checkBox"));
+        checkBox->setGeometry(QRect(230, 440, 70, 17));
+        label_16 = new QLabel(centralWidget);
+        label_16->setObjectName(QStringLiteral("label_16"));
+        label_16->setGeometry(QRect(190, 440, 71, 20));
+        label_17 = new QLabel(centralWidget);
+        label_17->setObjectName(QStringLiteral("label_17"));
+        label_17->setGeometry(QRect(260, 440, 71, 20));
+        camera_z_2 = new QDoubleSpinBox(centralWidget);
+        camera_z_2->setObjectName(QStringLiteral("camera_z_2"));
+        camera_z_2->setGeometry(QRect(340, 440, 62, 22));
+        camera_z_2->setMinimum(-10);
+        camera_z_2->setMaximum(10);
+        camera_z_2->setValue(1);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -210,6 +242,10 @@ public:
         label_12->setText(QApplication::translate("MainWindow", "Glass", 0));
         label_13->setText(QApplication::translate("MainWindow", "# samples", 0));
         label_14->setText(QApplication::translate("MainWindow", "# rays", 0));
+        label_15->setText(QApplication::translate("MainWindow", "camera focus", 0));
+        checkBox->setText(QString());
+        label_16->setText(QApplication::translate("MainWindow", "motion", 0));
+        label_17->setText(QApplication::translate("MainWindow", "motion time", 0));
     } // retranslateUi
 
 };

@@ -23,7 +23,7 @@ public :
      * @param focus_dist float distance to focus image around
      */
     camera(vec3 camera_center,vec3 look_at_point, vec3 vup,
-           float vfov, float aspect, float aperature, float focus_dist);
+           float vfov, float aspect, float aperature, float focus_dist, float t0, float t1);
 
     /**
      * @brief get_ray
@@ -41,6 +41,8 @@ public :
     vec3 lower_left_corner;
     vec3 u, v, w;
     float lens_radius;
+    float time0;
+    float time1;
 
 };
 
