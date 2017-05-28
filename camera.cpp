@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "utilities.h"
 
+//===================================================================
 camera::camera(vec3 camera_center, vec3 look_at_point, vec3 vup,
        float vfov, float aspect, float aperature,
                float focus_dist, float t0, float t1)
@@ -27,6 +28,7 @@ camera::camera(vec3 camera_center, vec3 look_at_point, vec3 vup,
     //origin = vec3(0,0,0);
 }
 
+//===================================================================
 ray camera::get_ray(float s, float t)
 {
     vec3 rd     = lens_radius * random_in_unit_disk();

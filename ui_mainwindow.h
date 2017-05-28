@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.0
+** Created by: Qt User Interface Compiler version 5.7.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -86,7 +86,8 @@ public:
         num_samples->setObjectName(QStringLiteral("num_samples"));
         num_samples->setGeometry(QRect(140, 320, 111, 22));
         num_samples->setMinimum(1);
-        num_samples->setMaximum(100);
+        num_samples->setMaximum(1000);
+        num_samples->setSingleStep(10);
         num_samples->setValue(10);
         num_samples->setOrientation(Qt::Horizontal);
         num_rays = new QSlider(centralWidget);
@@ -197,7 +198,7 @@ public:
         checkBox->setGeometry(QRect(230, 440, 70, 17));
         label_16 = new QLabel(centralWidget);
         label_16->setObjectName(QStringLiteral("label_16"));
-        label_16->setGeometry(QRect(190, 440, 71, 20));
+        label_16->setGeometry(QRect(190, 440, 31, 20));
         label_17 = new QLabel(centralWidget);
         label_17->setObjectName(QStringLiteral("label_17"));
         label_17->setGeometry(QRect(260, 440, 71, 20));
@@ -208,6 +209,39 @@ public:
         camera_z_2->setMaximum(10);
         camera_z_2->setValue(1);
         MainWindow->setCentralWidget(centralWidget);
+        pushButton->raise();
+        widget->raise();
+        num_samples->raise();
+        num_rays->raise();
+        camera_x->raise();
+        camera_y->raise();
+        camera_z->raise();
+        point_x->raise();
+        point_y->raise();
+        point_z->raise();
+        num_diffuse->raise();
+        num_metal->raise();
+        num_glass->raise();
+        label->raise();
+        label_2->raise();
+        label_3->raise();
+        label_4->raise();
+        label_5->raise();
+        label_6->raise();
+        label_7->raise();
+        label_8->raise();
+        label_9->raise();
+        label_10->raise();
+        label_11->raise();
+        label_12->raise();
+        label_13->raise();
+        label_14->raise();
+        label_15->raise();
+        num_samples_2->raise();
+        label_16->raise();
+        label_17->raise();
+        camera_z_2->raise();
+        checkBox->raise();
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 454, 21));
@@ -226,26 +260,26 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        pushButton->setText(QApplication::translate("MainWindow", "TRACE!", 0));
-        label->setText(QApplication::translate("MainWindow", "Camera Location", 0));
-        label_2->setText(QApplication::translate("MainWindow", "X:", 0));
-        label_3->setText(QApplication::translate("MainWindow", "X:", 0));
-        label_4->setText(QApplication::translate("MainWindow", "Y:", 0));
-        label_5->setText(QApplication::translate("MainWindow", "Y:", 0));
-        label_6->setText(QApplication::translate("MainWindow", "Z:", 0));
-        label_7->setText(QApplication::translate("MainWindow", "Z:", 0));
-        label_8->setText(QApplication::translate("MainWindow", "Camera Point At", 0));
-        label_9->setText(QApplication::translate("MainWindow", "Number of balls", 0));
-        label_10->setText(QApplication::translate("MainWindow", "Diffuse", 0));
-        label_11->setText(QApplication::translate("MainWindow", "Metal", 0));
-        label_12->setText(QApplication::translate("MainWindow", "Glass", 0));
-        label_13->setText(QApplication::translate("MainWindow", "# samples", 0));
-        label_14->setText(QApplication::translate("MainWindow", "# rays", 0));
-        label_15->setText(QApplication::translate("MainWindow", "camera focus", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("MainWindow", "TRACE!", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Camera Location", Q_NULLPTR));
+        label_2->setText(QApplication::translate("MainWindow", "X:", Q_NULLPTR));
+        label_3->setText(QApplication::translate("MainWindow", "X:", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "Y:", Q_NULLPTR));
+        label_5->setText(QApplication::translate("MainWindow", "Y:", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "Z:", Q_NULLPTR));
+        label_7->setText(QApplication::translate("MainWindow", "Z:", Q_NULLPTR));
+        label_8->setText(QApplication::translate("MainWindow", "Camera Point At", Q_NULLPTR));
+        label_9->setText(QApplication::translate("MainWindow", "Number of balls", Q_NULLPTR));
+        label_10->setText(QApplication::translate("MainWindow", "Diffuse", Q_NULLPTR));
+        label_11->setText(QApplication::translate("MainWindow", "Metal", Q_NULLPTR));
+        label_12->setText(QApplication::translate("MainWindow", "Glass", Q_NULLPTR));
+        label_13->setText(QApplication::translate("MainWindow", "# samples", Q_NULLPTR));
+        label_14->setText(QApplication::translate("MainWindow", "# rays", Q_NULLPTR));
+        label_15->setText(QApplication::translate("MainWindow", "camera focus", Q_NULLPTR));
         checkBox->setText(QString());
-        label_16->setText(QApplication::translate("MainWindow", "motion", 0));
-        label_17->setText(QApplication::translate("MainWindow", "motion time", 0));
+        label_16->setText(QApplication::translate("MainWindow", "motion", Q_NULLPTR));
+        label_17->setText(QApplication::translate("MainWindow", "motion time", Q_NULLPTR));
     } // retranslateUi
 
 };

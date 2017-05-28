@@ -1,22 +1,26 @@
 #include "aabb.h"
 
+
+//===================================================================
 aabb::aabb()
 {
 
 }
 
+//===================================================================
 aabb::aabb(const vec3 &a, const vec3 &b)
 {
     _min = a;
     _max = b;
 }
 
+//===================================================================
 bool aabb::hit(const ray &r, float tmin, float tmax) const
 {
     //for each dimension, check if ray intersects slab
     for(int i =0; i < 3; ++i)
     {
-        float invD = 1.0f / r.direction()[i];
+        float invD = 1.0f / r.direction()[i]; //optimize code
 
         float t0 = (min()[i] - r.origin()[i]) * invD;
         float t1 = (max()[i] - r.origin()[i]) * invD;
@@ -44,11 +48,14 @@ bool aabb::hit(const ray &r, float tmin, float tmax) const
     return true;
 }
 
+//===================================================================
 aabb aabb::surrounding_box(aabb box0, aabb box1)
 {
+    //choose smallest xyz coordinates
     vec3 small = vec3(fmin(box0.min().x(), box1.min().x()),
                   fmin(box0.min().y(), box1.min().y()),
                   fmin(box0.min().z(), box1.min().z()));
+    //choose largest xyz coordiantes
     vec3 big   = vec3(fmax(box0.max().x(), box1.max().x()),
                   fmax(box0.max().y(), box1.max().y()),
                   fmax(box0.max().z(), box1.max().z()));

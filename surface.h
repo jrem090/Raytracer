@@ -6,9 +6,12 @@
 
 class material;
 
+/**
+ * @brief The hit_record struct
+ */
 struct hit_record
 {
-    float t;
+    float t; //distance
     vec3 p;
     vec3 normal;
     material *mat_ptr;

@@ -457,7 +457,7 @@
      <rect>
       <x>190</x>
       <y>440</y>
-      <width>71</width>
+      <width>31</width>
       <height>20</height>
      </rect>
     </property>
@@ -497,6 +497,39 @@
      <double>1.000000000000000</double>
     </property>
    </widget>
+   <zorder>pushButton</zorder>
+   <zorder>widget</zorder>
+   <zorder>num_samples</zorder>
+   <zorder>num_rays</zorder>
+   <zorder>camera_x</zorder>
+   <zorder>camera_y</zorder>
+   <zorder>camera_z</zorder>
+   <zorder>point_x</zorder>
+   <zorder>point_y</zorder>
+   <zorder>point_z</zorder>
+   <zorder>num_diffuse</zorder>
+   <zorder>num_metal</zorder>
+   <zorder>num_glass</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>label_3</zorder>
+   <zorder>label_4</zorder>
+   <zorder>label_5</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
+   <zorder>label_9</zorder>
+   <zorder>label_10</zorder>
+   <zorder>label_11</zorder>
+   <zorder>label_12</zorder>
+   <zorder>label_13</zorder>
+   <zorder>label_14</zorder>
+   <zorder>label_15</zorder>
+   <zorder>num_samples_2</zorder>
+   <zorder>label_16</zorder>
+   <zorder>label_17</zorder>
+   <zorder>camera_z_2</zorder>
+   <zorder>checkBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

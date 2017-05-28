@@ -18,7 +18,7 @@
 #include "dielectric.h"
 #include "utilities.h"
 
-
+//===================================================================
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -29,11 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(raytrace()));
 }
 
+//===================================================================
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//===================================================================
 //determines the color of a pixel
 vec3 color(const ray& r, surface *world, int depth)
 {
@@ -60,6 +61,7 @@ vec3 color(const ray& r, surface *world, int depth)
     }
 }
 
+//===================================================================
 void MainWindow::raytrace()
 {
     QString filename = "traceout.ppm";
@@ -73,15 +75,14 @@ void MainWindow::raytrace()
 
         int number_of_balls = ui->num_diffuse->value()
                             + ui->num_glass->value()*2
-                            + ui->num_metal->value() +
-                            + 3; //motion
+                            + ui->num_metal->value();
 
         surface *list[number_of_balls];
         //surface_list *world = new surface_list(list,number_of_balls);
         list[0] = new sphere(vec3(0,-100.5,-1),100,
                                      new lambertian(vec3(0.2,0.8,0.3)));
         int i = 1;
-        for(int j = i; j < 5; ++j)
+        /*for(int j = i; j < 5; ++j)
         {
             vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
                           (((float)rand()/(float)RAND_MAX)-.5)*4,
@@ -95,38 +96,81 @@ void MainWindow::raytrace()
             list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
                                         new lambertian(color));
             ++i;
-        }
-        int next_max = ui->num_diffuse->value()+4;
+        }*/
+
+        //add difuse
+        int next_max = ui->num_diffuse->value();
         while(i <= next_max)
         {
-            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4);
             vec3 color((float)rand()/(float)RAND_MAX,
                        (float)rand()/(float)RAND_MAX,
                        (float)rand()/(float)RAND_MAX);
-            list[i] = new sphere(location,0.5, new lambertian(color));
+
+            if(ui->checkBox->isChecked())
+            {
+                //use motion
+                vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                              (((float)rand()/(float)RAND_MAX)-.5)*0.25,
+                              (((float)rand()/(float)RAND_MAX)-.5)*4);
+                vec3 location2((((float)rand()/(float)RAND_MAX)-.5)*4,
+                              (((float)rand()/(float)RAND_MAX)-.5)*0.5,
+                              (((float)rand()/(float)RAND_MAX)-.5)*4);
+                list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
+                                            new lambertian(color));
+            }
+            else
+            {
+                vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                              (((float)rand()/(float)RAND_MAX)-.5)*4,
+                              (((float)rand()/(float)RAND_MAX)-.5)*4);
+
+                list[i] = new sphere(location,0.5, new lambertian(color));
+            }
             ++i;
         }
 
+        //add glass spheres
         next_max = next_max + 2 * ui->num_glass->value();
         while(i <= next_max)
         {
-            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4);
-            list[i] = new sphere(location,0.5, new dielectric(vec3(1.0,1.0,1.0)));
+            vec3 location;
+            if(ui->checkBox->isChecked())
+            {
+                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
+                               (((float)rand()/(float)RAND_MAX)-.5)*0.25,
+                               (((float)rand()/(float)RAND_MAX)-.5)*4);
+            }
+            else
+            {
+                location = vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
+                                (((float)rand()/(float)RAND_MAX)-.5)*4,
+                                (((float)rand()/(float)RAND_MAX)-.5)*4);
+            }
+            list[i] = new sphere(location,0.5,
+                                 new dielectric(vec3(1.0,1.0,1.0)));
             ++i;
-            list[i] = new sphere(location,-0.45, new dielectric(vec3(1.0,1.0,1.0)));
+            list[i] = new sphere(location,-0.45, new
+                                 dielectric(vec3(1.0,1.0,1.0)));
             ++i;
         }
 
+        //
         next_max = next_max + ui->num_metal->value();
         while(i <= next_max)
         {
-            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4);
+            vec3 location;
+            if(ui->checkBox->isChecked())
+            {
+                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
+                               (((float)rand()/(float)RAND_MAX)-.5)*0.25,
+                               (((float)rand()/(float)RAND_MAX)-.5)*4);
+            }
+            else
+            {
+                location = vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
+                                (((float)rand()/(float)RAND_MAX)-.5)*4,
+                                (((float)rand()/(float)RAND_MAX)-.5)*4);
+            }
             vec3 color((float)rand()/(float)RAND_MAX,
                        (float)rand()/(float)RAND_MAX,
                        (float)rand()/(float)RAND_MAX);

@@ -35,6 +35,7 @@ public :
      */
     ray get_ray(float s, float t);
 
+    //private?
     vec3 origin;
     vec3 vertical;
     vec3 horizontal;
