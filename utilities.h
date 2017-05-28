@@ -8,7 +8,7 @@
 
 /**
  * @brief unit_random
- * @return returns a vlue between 0.30 and 1.0 inclusive
+ * @return returns a vlue between 0.0 and 1.0 inclusive
  */
 float unit_random();
 

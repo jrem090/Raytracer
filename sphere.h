@@ -31,6 +31,15 @@ public:
      */
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
 
+    /**
+     * @brief bounding_box
+     * @param t0
+     * @param t1
+     * @param box
+     * @return
+     */
+    virtual bool bounding_box(float t0, float t1, aabb& box) const;
+
     float radius;
     material* mat;
     vec3 center;

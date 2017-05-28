@@ -55,3 +55,23 @@ bool moving_sphere::hit(const ray &r,
     }
     return false;
 }
+
+bool moving_sphere::bounding_box(float t0, float t1, aabb &box) const
+{
+
+    aabb box0 = aabb(center0 - vec3(radius,radius,radius),
+               center0 + vec3(radius,radius,radius));
+    aabb box1 = aabb(center1 - vec3(radius,radius,radius),
+               center1 + vec3(radius,radius,radius));
+
+    vec3 small = vec3(fmin(box0.min().x(), box1.min().x()),
+                  fmin(box0.min().y(), box1.min().y()),
+                  fmin(box0.min().z(), box1.min().z()));
+
+    vec3 big   = vec3(fmax(box0.max().x(), box1.max().x()),
+                  fmax(box0.max().y(), box1.max().y()),
+                  fmax(box0.max().z(), box1.max().z()));
+
+    box = aabb(small,big);
+    return true;
+}

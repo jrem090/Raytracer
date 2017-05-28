@@ -8,6 +8,8 @@ INPUT(
 ./release\camera.o
 ./release\utilities.o
 ./release\moving_sphere.o
+./release\aabb.o
+./release\bvh_node.o
 ./release\qrc_qmake_qmake_immediate.o
 ./release\moc_mainwindow.o
 );

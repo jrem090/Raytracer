@@ -11,6 +11,7 @@
 #include "sphere.h"
 #include "moving_sphere.h"
 #include "surface_list.h"
+#include "bvh_node.h"
 #include "camera.h"
 #include "lambertian.h"
 #include "metal.h"
@@ -76,7 +77,7 @@ void MainWindow::raytrace()
                             + 3; //motion
 
         surface *list[number_of_balls];
-        surface_list *world = new surface_list(list,number_of_balls);
+        //surface_list *world = new surface_list(list,number_of_balls);
         list[0] = new sphere(vec3(0,-100.5,-1),100,
                                      new lambertian(vec3(0.2,0.8,0.3)));
         int i = 1;
@@ -91,10 +92,11 @@ void MainWindow::raytrace()
             vec3 color((float)rand()/(float)RAND_MAX,
                        (float)rand()/(float)RAND_MAX,
                        (float)rand()/(float)RAND_MAX);
-            list[i] = new moving_sphere(location,location2, 0.5, 0,1,new lambertian(color));
+            list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
+                                        new lambertian(color));
             ++i;
         }
-        int next_max = ui->num_diffuse->value();
+        int next_max = ui->num_diffuse->value()+4;
         while(i <= next_max)
         {
             vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
@@ -131,6 +133,9 @@ void MainWindow::raytrace()
             list[i] = new sphere(location,0.5, new metal(color));
             ++i;
         }
+
+        bvh_node *world = new bvh_node(list,number_of_balls,0,1);
+
 
         vec3 camera_center = vec3(ui->camera_x->value(),
                                   ui->camera_y->value(),

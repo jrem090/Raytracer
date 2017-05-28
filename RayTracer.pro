@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     surface_list.cpp \
     camera.cpp \
     utilities.cpp \
-    moving_sphere.cpp
+    moving_sphere.cpp \
+    aabb.cpp \
+    bvh_node.cpp
 
 HEADERS  += mainwindow.h \
     vec3.h \
@@ -34,7 +36,9 @@ HEADERS  += mainwindow.h \
     metal.h \
     dielectric.h \
     utilities.h \
-    moving_sphere.h
+    moving_sphere.h \
+    aabb.h \
+    bvh_node.h
 
 FORMS    += mainwindow.ui
 
