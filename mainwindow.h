@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "vec3.h"
+#include "bvh_node.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,10 @@ private:
     unsigned int num_diffuse;
     unsigned int num_glass;
     unsigned int num_metal;
+
+    bvh_node* build_checker_scene(unsigned int num_diffuse,
+                                 unsigned int num_glass,
+                                 unsigned int num_metal);
 
 };
 

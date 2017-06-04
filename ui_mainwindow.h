@@ -179,7 +179,7 @@ public:
         label_12->setGeometry(QRect(320, 410, 41, 21));
         label_13 = new QLabel(centralWidget);
         label_13->setObjectName(QStringLiteral("label_13"));
-        label_13->setGeometry(QRect(90, 320, 61, 20));
+        label_13->setGeometry(QRect(90, 320, 51, 20));
         label_14 = new QLabel(centralWidget);
         label_14->setObjectName(QStringLiteral("label_14"));
         label_14->setGeometry(QRect(260, 320, 61, 20));

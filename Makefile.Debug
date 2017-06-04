@@ -83,7 +83,10 @@ DIST          =  mainwindow.h \
 		utilities.h \
 		moving_sphere.h \
 		aabb.h \
-		bvh_node.h main.cpp \
+		bvh_node.h \
+		texture.h \
+		constant_texture.h \
+		checker_texture.h main.cpp \
 		mainwindow.cpp \
 		vec3.cpp \
 		ray.cpp \
@@ -245,6 +248,10 @@ debug/moc_mainwindow.cpp: ../../../../Qt/5.7/mingw53_32/include/QtWidgets/QMainW
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../../Qt/5.7/mingw53_32/include/QtGui/qicon.h \
 		vec3.h \
+		bvh_node.h \
+		surface.h \
+		aabb.h \
+		ray.h \
 		mainwindow.h \
 		../../../../Qt/5.7/mingw53_32/bin/moc.exe
 	C:\Qt\5.7\mingw53_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.7/mingw53_32/mkspecs/win32-g++ -IC:/Users/John/Projects/RayTracer -IC:/Qt/5.7/mingw53_32/include -IC:/Qt/5.7/mingw53_32/include/QtWidgets -IC:/Qt/5.7/mingw53_32/include/QtGui -IC:/Qt/5.7/mingw53_32/include/QtANGLE -IC:/Qt/5.7/mingw53_32/include/QtCore -IC:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward mainwindow.h -o debug\moc_mainwindow.cpp
@@ -372,6 +379,10 @@ debug/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../../Qt/5.7/mingw53_32/include/QtGui/qicon.h \
 		vec3.h \
+		bvh_node.h \
+		surface.h \
+		aabb.h \
+		ray.h \
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/QApplication \
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/qapplication.h \
 		../../../../Qt/5.7/mingw53_32/include/QtCore/qcoreapplication.h \
@@ -485,6 +496,10 @@ debug/mainwindow.o: mainwindow.cpp ../../../../Qt/5.7/mingw53_32/include/QtCore/
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../../Qt/5.7/mingw53_32/include/QtGui/qicon.h \
 		vec3.h \
+		bvh_node.h \
+		surface.h \
+		aabb.h \
+		ray.h \
 		ui_mainwindow.h \
 		../../../../Qt/5.7/mingw53_32/include/QtCore/QVariant \
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/QAction \
@@ -535,19 +550,17 @@ debug/mainwindow.o: mainwindow.cpp ../../../../Qt/5.7/mingw53_32/include/QtCore/
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/QToolBar \
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/qtoolbar.h \
 		../../../../Qt/5.7/mingw53_32/include/QtWidgets/QWidget \
-		sphere.h \
-		surface.h \
-		aabb.h \
-		ray.h \
-		moving_sphere.h \
-		surface_list.h \
-		bvh_node.h \
 		camera.h \
+		sphere.h \
+		moving_sphere.h \
 		lambertian.h \
 		material.h \
 		utilities.h \
+		texture.h \
 		metal.h \
-		dielectric.h
+		dielectric.h \
+		constant_texture.h \
+		checker_texture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
 
 debug/vec3.o: vec3.cpp vec3.h

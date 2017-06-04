@@ -8,15 +8,21 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "camera.h"
+//#include "surface_list.h" //DEPRECATED
+//include surfaces/hitables
+#include "bvh_node.h"
 #include "sphere.h"
 #include "moving_sphere.h"
-#include "surface_list.h"
-#include "bvh_node.h"
-#include "camera.h"
+//include materials
 #include "lambertian.h"
 #include "metal.h"
 #include "dielectric.h"
 #include "utilities.h"
+//include textures
+#include "texture.h"
+#include "constant_texture.h"
+#include "checker_texture.h"
 
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
@@ -74,47 +80,36 @@ void MainWindow::raytrace()
         int ny = ui->widget->height();
 
         int number_of_balls = ui->num_diffuse->value()
-                            + ui->num_glass->value()*2
-                            + ui->num_metal->value();
+                + ui->num_glass->value()*2
+                + ui->num_metal->value()+1;
 
-        surface *list[number_of_balls];
+        /*        surface *list[number_of_balls];
         //surface_list *world = new surface_list(list,number_of_balls);
+        texture *large_color= new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
+                                                  new constant_texture(vec3(0.9,0.9,0.9)));
         list[0] = new sphere(vec3(0,-100.5,-1),100,
-                                     new lambertian(vec3(0.2,0.8,0.3)));
+                             new lambertian(large_color));
         int i = 1;
-        /*for(int j = i; j < 5; ++j)
-        {
-            vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4);
-            vec3 location2((((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4,
-                          (((float)rand()/(float)RAND_MAX)-.5)*4);
-            vec3 color((float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX);
-            list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
-                                        new lambertian(color));
-            ++i;
-        }*/
 
-        //add difuse
+        //add difuse/lambet
         int next_max = ui->num_diffuse->value();
         while(i <= next_max)
         {
-            vec3 color((float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX);
+            vec3 diffuse_color((float)rand()/(float)RAND_MAX,
+                               (float)rand()/(float)RAND_MAX,
+                               (float)rand()/(float)RAND_MAX);
+            constant_texture *color = new constant_texture(diffuse_color);
 
             if(ui->checkBox->isChecked())
             {
                 //use motion
-                vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
+                vec3 location((((float)rand()/(float)RAND_MAX)-.5)*10,
                               (((float)rand()/(float)RAND_MAX)-.5)*0.25,
-                              (((float)rand()/(float)RAND_MAX)-.5)*4);
-                vec3 location2((((float)rand()/(float)RAND_MAX)-.5)*4,
-                              (((float)rand()/(float)RAND_MAX)-.5)*0.5,
-                              (((float)rand()/(float)RAND_MAX)-.5)*4);
+                              (((float)rand()/(float)RAND_MAX)-.5)*10);
+                vec3 location2(location.x(),
+                               (location.y()+((float)rand()/
+                                              (float)RAND_MAX)),
+                               location.z());
                 list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
                                             new lambertian(color));
             }
@@ -136,9 +131,9 @@ void MainWindow::raytrace()
             vec3 location;
             if(ui->checkBox->isChecked())
             {
-                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
+                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
                                (((float)rand()/(float)RAND_MAX)-.5)*0.25,
-                               (((float)rand()/(float)RAND_MAX)-.5)*4);
+                               (((float)rand()/(float)RAND_MAX)-.5)*10);
             }
             else
             {
@@ -159,27 +154,35 @@ void MainWindow::raytrace()
         while(i <= next_max)
         {
             vec3 location;
+
+            vec3 color((float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX,
+                       (float)rand()/(float)RAND_MAX);
+
             if(ui->checkBox->isChecked())
             {
-                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
-                               (((float)rand()/(float)RAND_MAX)-.5)*0.25,
-                               (((float)rand()/(float)RAND_MAX)-.5)*4);
+                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
+                               (((float)rand()/(float)RAND_MAX)-1)*0.25,
+                               (((float)rand()/(float)RAND_MAX)-.5)*10);
+                list[i] = new sphere(location,2.0, new metal(color));
             }
             else
             {
                 location = vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
                                 (((float)rand()/(float)RAND_MAX)-.5)*4,
                                 (((float)rand()/(float)RAND_MAX)-.5)*4);
+                list[i] = new sphere(location,0.5, new metal(color));
             }
-            vec3 color((float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX);
-            list[i] = new sphere(location,0.5, new metal(color));
+
+
             ++i;
         }
 
         bvh_node *world = new bvh_node(list,number_of_balls,0,1);
-
+*/
+        bvh_node *world = build_checker_scene(ui->num_diffuse->value(),
+                                              ui->num_glass->value(),
+                                              ui->num_metal->value());
 
         vec3 camera_center = vec3(ui->camera_x->value(),
                                   ui->camera_y->value(),
@@ -206,7 +209,7 @@ void MainWindow::raytrace()
                     float v = (float(j + (float)rand()/(float)RAND_MAX)) / float(ny);
 
                     ray r = cam.get_ray(u,v);
-//                    vec3 p   = r.point_at_parameter(2.0);
+                    //                    vec3 p   = r.point_at_parameter(2.0);
                     col += color(r,world,0);
 
                 }
@@ -224,4 +227,82 @@ void MainWindow::raytrace()
     file.close();
 
     ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
+}
+
+
+bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
+                                          unsigned int num_glass,
+                                          unsigned int num_metal)
+{
+    int number_of_balls = 1 + num_diffuse + num_glass*2 + num_metal;
+
+    surface *list[number_of_balls];
+    texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
+                                               new constant_texture(vec3(0.9,0.9,0.9)));
+    list[0] = new sphere(vec3(0,-100.5,-1),100,
+                         new lambertian(large_color));
+
+    int i = 1; //start at one since we assume base layer/ball
+
+    //add difuse/lambert
+    int next_max = ui->num_diffuse->value();
+    while(i <= next_max)
+    {
+        vec3 diffuse_color((float)rand()/(float)RAND_MAX,
+                           (float)rand()/(float)RAND_MAX,
+                           (float)rand()/(float)RAND_MAX);
+        constant_texture *color = new constant_texture(diffuse_color);
+
+
+        vec3 location((((float)rand()/(float)RAND_MAX)-.5)*10,
+                      (((float)rand()/(float)RAND_MAX)-.5)*0.25,
+                      (((float)rand()/(float)RAND_MAX)-.5)*10);
+        vec3 location2(location.x(),
+                       (location.y()+((float)rand()/
+                                      (float)RAND_MAX)),
+                       location.z());
+        list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
+                                    new lambertian(color));
+
+        ++i;
+    }
+
+    //add glass spheres
+    next_max = next_max + 2 * ui->num_glass->value();
+    while(i <= next_max)
+    {
+        vec3 location = vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
+                             (((float)rand()/(float)RAND_MAX)-.5)*0.25,
+                             (((float)rand()/(float)RAND_MAX)-.5)*10);
+
+
+        list[i] = new sphere(location,0.5,
+                             new dielectric(vec3(1.0,1.0,1.0)));
+        ++i;
+        list[i] = new sphere(location,-0.45, new
+                             dielectric(vec3(1.0,1.0,1.0)));
+        ++i;
+    }
+
+    // add metal spheres
+    next_max = next_max + ui->num_metal->value();
+    while(i <= next_max)
+    {
+        vec3 location;
+
+        vec3 color((float)rand()/(float)RAND_MAX,
+                   (float)rand()/(float)RAND_MAX,
+                   (float)rand()/(float)RAND_MAX);
+
+        location= vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
+                       (((float)rand()/(float)RAND_MAX)-1)*0.25,
+                       (((float)rand()/(float)RAND_MAX)-.5)*10);
+        list[i] = new sphere(location,0.5, new metal(color));
+
+        ++i;
+    }
+
+    bvh_node *world = new bvh_node(list,number_of_balls,0,1);
+
+    return world;
 }

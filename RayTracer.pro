@@ -38,7 +38,10 @@ HEADERS  += mainwindow.h \
     utilities.h \
     moving_sphere.h \
     aabb.h \
-    bvh_node.h
+    bvh_node.h \
+    texture.h \
+    constant_texture.h \
+    checker_texture.h
 
 FORMS    += mainwindow.ui
 

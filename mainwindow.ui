@@ -50,7 +50,10 @@
      <number>1</number>
     </property>
     <property name="maximum">
-     <number>100</number>
+     <number>1000</number>
+    </property>
+    <property name="singleStep">
+     <number>10</number>
     </property>
     <property name="value">
      <number>10</number>
@@ -383,7 +386,7 @@
      <rect>
       <x>90</x>
       <y>320</y>
-      <width>61</width>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>

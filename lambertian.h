@@ -3,6 +3,7 @@
 
 #include "material.h"
 #include "utilities.h"
+#include "texture.h"
 
 /**
  * @brief The lambertian class
@@ -15,7 +16,7 @@ public:
      * @brief lambertian
      * @param a alebedo
      */
-    lambertian(const vec3& a) : albedo(a){}
+    lambertian(texture* a) : albedo(a){}
 
 
     /**
@@ -34,12 +35,12 @@ public:
         //define a randomly scattered ray and accumulate albedo;
         vec3 target = rec.p + rec.normal + random_in_unit_sphere();
         scattered = ray(rec.p, target-rec.p , r_in.time());
-        attenuation = albedo;
+        attenuation = albedo->value(0,0,rec.p);
         return true;
     }
 
 
-    vec3 albedo;
+    texture *albedo;
 };
 
 
