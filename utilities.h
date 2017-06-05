@@ -46,4 +46,22 @@ bool refract(const vec3& v,
              float ni_over_nt,
              vec3& refracted);
 
+float noise(const vec3& p);
+
+float* perlin_generate();
+
+void permute(int *p, int n);
+
+int* perlin_generate_perm();
+
+float trilinear_interp(float c[2][2][2],
+                        float u,
+                        float v,
+                        float w);
+
+static float * ranfloat;
+static int   * perm_x;
+static int   * perm_y;
+static int   * perm_z;
+
 #endif // UTILITIES_H

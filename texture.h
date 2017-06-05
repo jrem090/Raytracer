@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include "vec3.h"
+#include "utilities.h"
 
 class texture
 {

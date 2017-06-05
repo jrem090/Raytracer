@@ -64,7 +64,21 @@ int box_z_compare (const void * a, const void * b)
 //===================================================================
 bvh_node::bvh_node()
 {
-
+    if(left!=NULL)
+    {
+        if(right ==left)
+        {
+            delete right;
+            right = 0;
+        }
+        delete left;
+        left = 0;
+    }
+    if(right!=NULL)
+    {
+        delete right;
+        right = 0;
+    }
 }
 
 //===================================================================

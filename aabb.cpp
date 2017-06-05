@@ -28,7 +28,7 @@ bool aabb::hit(const ray &r, float tmin, float tmax) const
                 std::swap(t0,t1);
 
         tmin = t0 > tmin ? t0 : tmin;
-        tmin = t1 < tmax ? t1 : tmax;
+        tmax = t1 < tmax ? t1 : tmax;
         //older implementation. kept for academic purposes
         /*float t0 = ffmin((_min[i] - r.origin()[i]) / r.direction()[i],
                 (_max[i]) - r.origin()[i] / r.direction()[i]);

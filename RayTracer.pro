@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = RayTracer
 TEMPLATE = app
 
+#VPATH+=./materials ./textures ./surfaces
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -22,7 +23,8 @@ SOURCES += main.cpp\
     utilities.cpp \
     moving_sphere.cpp \
     aabb.cpp \
-    bvh_node.cpp
+    bvh_node.cpp \
+    perlin.cpp
 
 HEADERS  += mainwindow.h \
     vec3.h \
@@ -41,7 +43,9 @@ HEADERS  += mainwindow.h \
     bvh_node.h \
     texture.h \
     constant_texture.h \
-    checker_texture.h
+    checker_texture.h \
+    perlin.h \
+    noise_texture.h
 
 FORMS    += mainwindow.ui
 

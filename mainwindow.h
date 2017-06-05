@@ -32,6 +32,8 @@ private:
     unsigned int num_glass;
     unsigned int num_metal;
 
+    bvh_node* world;
+
     bvh_node* build_checker_scene(unsigned int num_diffuse,
                                  unsigned int num_glass,
                                  unsigned int num_metal);

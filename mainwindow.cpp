@@ -23,6 +23,7 @@
 #include "texture.h"
 #include "constant_texture.h"
 #include "checker_texture.h"
+#include "noise_texture.h"
 
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
@@ -79,108 +80,10 @@ void MainWindow::raytrace()
         int nx = ui->widget->width();
         int ny = ui->widget->height();
 
-        int number_of_balls = ui->num_diffuse->value()
-                + ui->num_glass->value()*2
-                + ui->num_metal->value()+1;
+        if(world!=NULL)
+            delete world;
 
-        /*        surface *list[number_of_balls];
-        //surface_list *world = new surface_list(list,number_of_balls);
-        texture *large_color= new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
-                                                  new constant_texture(vec3(0.9,0.9,0.9)));
-        list[0] = new sphere(vec3(0,-100.5,-1),100,
-                             new lambertian(large_color));
-        int i = 1;
-
-        //add difuse/lambet
-        int next_max = ui->num_diffuse->value();
-        while(i <= next_max)
-        {
-            vec3 diffuse_color((float)rand()/(float)RAND_MAX,
-                               (float)rand()/(float)RAND_MAX,
-                               (float)rand()/(float)RAND_MAX);
-            constant_texture *color = new constant_texture(diffuse_color);
-
-            if(ui->checkBox->isChecked())
-            {
-                //use motion
-                vec3 location((((float)rand()/(float)RAND_MAX)-.5)*10,
-                              (((float)rand()/(float)RAND_MAX)-.5)*0.25,
-                              (((float)rand()/(float)RAND_MAX)-.5)*10);
-                vec3 location2(location.x(),
-                               (location.y()+((float)rand()/
-                                              (float)RAND_MAX)),
-                               location.z());
-                list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
-                                            new lambertian(color));
-            }
-            else
-            {
-                vec3 location((((float)rand()/(float)RAND_MAX)-.5)*4,
-                              (((float)rand()/(float)RAND_MAX)-.5)*4,
-                              (((float)rand()/(float)RAND_MAX)-.5)*4);
-
-                list[i] = new sphere(location,0.5, new lambertian(color));
-            }
-            ++i;
-        }
-
-        //add glass spheres
-        next_max = next_max + 2 * ui->num_glass->value();
-        while(i <= next_max)
-        {
-            vec3 location;
-            if(ui->checkBox->isChecked())
-            {
-                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
-                               (((float)rand()/(float)RAND_MAX)-.5)*0.25,
-                               (((float)rand()/(float)RAND_MAX)-.5)*10);
-            }
-            else
-            {
-                location = vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
-                                (((float)rand()/(float)RAND_MAX)-.5)*4,
-                                (((float)rand()/(float)RAND_MAX)-.5)*4);
-            }
-            list[i] = new sphere(location,0.5,
-                                 new dielectric(vec3(1.0,1.0,1.0)));
-            ++i;
-            list[i] = new sphere(location,-0.45, new
-                                 dielectric(vec3(1.0,1.0,1.0)));
-            ++i;
-        }
-
-        //
-        next_max = next_max + ui->num_metal->value();
-        while(i <= next_max)
-        {
-            vec3 location;
-
-            vec3 color((float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX,
-                       (float)rand()/(float)RAND_MAX);
-
-            if(ui->checkBox->isChecked())
-            {
-                location= vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
-                               (((float)rand()/(float)RAND_MAX)-1)*0.25,
-                               (((float)rand()/(float)RAND_MAX)-.5)*10);
-                list[i] = new sphere(location,2.0, new metal(color));
-            }
-            else
-            {
-                location = vec3((((float)rand()/(float)RAND_MAX)-.5)*4,
-                                (((float)rand()/(float)RAND_MAX)-.5)*4,
-                                (((float)rand()/(float)RAND_MAX)-.5)*4);
-                list[i] = new sphere(location,0.5, new metal(color));
-            }
-
-
-            ++i;
-        }
-
-        bvh_node *world = new bvh_node(list,number_of_balls,0,1);
-*/
-        bvh_node *world = build_checker_scene(ui->num_diffuse->value(),
+        world = build_checker_scene(ui->num_diffuse->value(),
                                               ui->num_glass->value(),
                                               ui->num_metal->value());
 
@@ -229,7 +132,7 @@ void MainWindow::raytrace()
     ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
 }
 
-
+//===================================================================
 bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
                                           unsigned int num_glass,
                                           unsigned int num_metal)
@@ -237,8 +140,9 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     int number_of_balls = 1 + num_diffuse + num_glass*2 + num_metal;
 
     surface *list[number_of_balls];
-    texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
-                                               new constant_texture(vec3(0.9,0.9,0.9)));
+ /*   texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
+                                               new constant_texture(vec3(0.9,0.9,0.9)));*/
+    texture *large_color = new noise_texture();
     list[0] = new sphere(vec3(0,-100.5,-1),100,
                          new lambertian(large_color));
 
@@ -302,7 +206,7 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
         ++i;
     }
 
-    bvh_node *world = new bvh_node(list,number_of_balls,0,1);
+    bvh_node *new_world = new bvh_node(list,number_of_balls,0,1);
 
-    return world;
+    return new_world;
 }

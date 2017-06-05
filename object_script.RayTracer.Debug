@@ -10,6 +10,7 @@ INPUT(
 ./debug\moving_sphere.o
 ./debug\aabb.o
 ./debug\bvh_node.o
+./debug\perlin.o
 ./debug\qrc_qmake_qmake_immediate.o
 ./debug\moc_mainwindow.o
 );
