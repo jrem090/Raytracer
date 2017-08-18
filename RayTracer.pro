@@ -49,6 +49,7 @@ HEADERS  += \
     source/utilities.h \
     source/vec3.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    ui/mainwindow.ui
 
 RESOURCES += traceout.ppm
