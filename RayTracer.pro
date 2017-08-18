@@ -13,39 +13,41 @@ TEMPLATE = app
 
 #VPATH+=./materials ./textures ./surfaces
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    vec3.cpp \
-    ray.cpp \
-    sphere.cpp \
-    surface_list.cpp \
-    camera.cpp \
-    utilities.cpp \
-    moving_sphere.cpp \
-    aabb.cpp \
-    bvh_node.cpp \
-    perlin.cpp
+SOURCES +=\
+    source/aabb.cpp \
+    source/bvh_node.cpp \
+    source/camera.cpp \
+    source/main.cpp \
+    source/mainwindow.cpp \
+    source/moving_sphere.cpp \
+    source/perlin.cpp \
+    source/ray.cpp \
+    source/sphere.cpp \
+    source/surface_list.cpp \
+    source/utilities.cpp \
+    source/vec3.cpp
 
-HEADERS  += mainwindow.h \
-    vec3.h \
-    ray.h \
-    surface.h \
-    sphere.h \
-    surface_list.h \
-    camera.h \
-    material.h \
-    lambertian.h \
-    metal.h \
-    dielectric.h \
-    utilities.h \
-    moving_sphere.h \
-    aabb.h \
-    bvh_node.h \
-    texture.h \
-    constant_texture.h \
-    checker_texture.h \
-    perlin.h \
-    noise_texture.h
+HEADERS  += \
+    source/aabb.h \
+    source/bvh_node.h \
+    source/camera.h \
+    source/checker_texture.h \
+    source/constant_texture.h \
+    source/dielectric.h \
+    source/lambertian.h \
+    source/mainwindow.h \
+    source/material.h \
+    source/metal.h \
+    source/moving_sphere.h \
+    source/noise_texture.h \
+    source/perlin.h \
+    source/ray.h \
+    source/sphere.h \
+    source/surface.h \
+    source/surface_list.h \
+    source/texture.h \
+    source/utilities.h \
+    source/vec3.h
 
 FORMS    += mainwindow.ui
 
