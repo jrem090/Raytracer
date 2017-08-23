@@ -23,6 +23,7 @@
 #include "texture.h"
 #include "constant_texture.h"
 #include "checker_texture.h"
+#include "image_texture.h"
 #include "noise_texture.h"
 
 //===================================================================
@@ -139,6 +140,10 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
 {
     int number_of_balls = 1 + num_diffuse + num_glass*2 + num_metal;
 
+    //test
+    //number_of_balls++;
+    //end test
+
     surface *list[number_of_balls];
  /*   texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
                                                new constant_texture(vec3(0.9,0.9,0.9)));*/
@@ -147,6 +152,12 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
                          new lambertian(large_color));
 
     int i = 1; //start at one since we assume base layer/ball
+
+    //test
+//    texture *image_text = new image_texture(QString("C:\\Users\\John\\Projects\\Raytracer\\test_image.jpg"));
+//    list[i] = new sphere(vec3(0,0,-1),1.25,new lambertian(image_text));
+//    ++i;
+    //end test
 
     //add difuse/lambert
     int next_max = ui->num_diffuse->value();

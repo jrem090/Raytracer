@@ -56,6 +56,17 @@ bool refract(const vec3& v,
         return false;
 }
 
+void get_sphere_uv(const vec3& p, float& u, float& v)
+{
+    //generate uv coordinates using phi (think lat) and theta(think lon)
+    float phi   = atan2(p.z(), p.x());
+    float theta = asin(p.y());
+
+    u = 1-(phi + M_PI) / (2*M_PI);
+    v = (theta + (M_PI/2.0)) / M_PI;
+
+}
+
 float noise(const vec3 &p)
 {
     float u = p.x() - floor(p.x());

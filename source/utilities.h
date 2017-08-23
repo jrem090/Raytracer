@@ -46,6 +46,8 @@ bool refract(const vec3& v,
              float ni_over_nt,
              vec3& refracted);
 
+void get_sphere_uv(const vec3& p, float& u, float& v);
+
 float noise(const vec3& p);
 
 float* perlin_generate();

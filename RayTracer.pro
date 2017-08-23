@@ -47,7 +47,8 @@ HEADERS  += \
     source/surface_list.h \
     source/texture.h \
     source/utilities.h \
-    source/vec3.h
+    source/vec3.h \
+    source/image_texture.h
 
 FORMS    += \
     ui/mainwindow.ui
