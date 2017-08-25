@@ -12,6 +12,8 @@ class material;
 struct hit_record
 {
     float t; //distance
+    float u;
+    float v;
     vec3 p;
     vec3 normal;
     material *mat_ptr;

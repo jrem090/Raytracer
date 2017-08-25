@@ -2,6 +2,7 @@
 #define SPHERE_H
 
 #include "surface.h"
+#include "utilities.h"
 
 class material;
 

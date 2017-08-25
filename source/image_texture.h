@@ -24,7 +24,7 @@ vec3 image_texture::value(float u, float v, const vec3 &p) const
 {
     Q_UNUSED(p);
 
-    get_sphere_uv(p,u,v);
+    //get_sphere_uv(p,u,v);
 
     int i = (u)*(float)nx;
     int j = (1-v)*(float)ny-.001;

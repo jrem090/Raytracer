@@ -141,7 +141,7 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     int number_of_balls = 1 + num_diffuse + num_glass*2 + num_metal;
 
     //test
-    //number_of_balls++;
+    number_of_balls++;
     //end test
 
     surface *list[number_of_balls];
@@ -154,9 +154,9 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     int i = 1; //start at one since we assume base layer/ball
 
     //test
-//    texture *image_text = new image_texture(QString("C:\\Users\\John\\Projects\\Raytracer\\test_image.jpg"));
-//    list[i] = new sphere(vec3(0,0,-1),1.25,new lambertian(image_text));
-//    ++i;
+    texture *image_text = new image_texture(QString("C:\\Users\\John\\Projects\\Raytracer\\test_image.jpg"));
+    list[i] = new sphere(vec3(0,0,-1),1.25,new lambertian(image_text));
+    ++i;
     //end test
 
     //add difuse/lambert
