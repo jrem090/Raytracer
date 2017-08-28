@@ -5,6 +5,8 @@
 
 #include "vec3.h"
 #include "bvh_node.h"
+#include "camera.h"
+#include "../ui/scene_widget.h"
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +35,7 @@ private:
     unsigned int num_metal;
 
     bvh_node* world;
+    scene_widget* scene;
 
     bvh_node* build_checker_scene(unsigned int num_diffuse,
                                  unsigned int num_glass,

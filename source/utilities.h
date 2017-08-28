@@ -6,6 +6,15 @@
 // This gheader file defines utility functions
 // to be used throughout the raytracer
 
+
+/**
+ * @brief schlick Function approximating reflectivity of glass at varying angles
+ * @param cosine
+ * @param ref_idx
+ * @return
+ */
+float schlick(float cosine, float ref_idx);
+
 /**
  * @brief unit_random
  * @return returns a vlue between 0.0 and 1.0 inclusive

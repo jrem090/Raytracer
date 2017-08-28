@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>532</height>
+    <width>464</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>610</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>320</y>
+      <y>610</y>
       <width>111</width>
       <height>22</height>
      </rect>
@@ -66,7 +66,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>320</y>
+      <y>610</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -195,36 +195,6 @@
      <double>-1.000000000000000</double>
     </property>
    </widget>
-   <widget class="QSpinBox" name="num_diffuse">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>410</y>
-      <width>42</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="num_metal">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>410</y>
-      <width>42</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="num_glass">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>410</y>
-      <width>42</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -329,63 +299,11 @@
      <string>Camera Point At</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>410</y>
-      <width>81</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Number of balls</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>410</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Diffuse</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_11">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>410</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Metal</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_12">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>410</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Glass</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>320</y>
+      <y>610</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -398,7 +316,7 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>320</y>
+      <y>610</y>
       <width>61</width>
       <height>20</height>
      </rect>
@@ -407,139 +325,44 @@
      <string># rays</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_15">
+   <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>440</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>camera focus</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="num_samples_2">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>440</y>
-      <width>111</width>
+      <x>20</x>
+      <y>410</y>
+      <width>391</width>
       <height>22</height>
      </rect>
     </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>100</number>
-    </property>
-    <property name="value">
-     <number>10</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
+    <item>
+     <property name="text">
+      <string>Custom Scene</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random Scene</string>
+     </property>
+    </item>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>20</x>
       <y>440</y>
-      <width>70</width>
-      <height>17</height>
+      <width>391</width>
+      <height>161</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
+    <layout class="QVBoxLayout" name="scene_layout"/>
    </widget>
-   <widget class="QLabel" name="label_16">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>440</y>
-      <width>31</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>motion</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_17">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>440</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>motion time</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="camera_z_2">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>440</y>
-      <width>62</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <double>-10.000000000000000</double>
-    </property>
-    <property name="maximum">
-     <double>10.000000000000000</double>
-    </property>
-    <property name="value">
-     <double>1.000000000000000</double>
-    </property>
-   </widget>
-   <zorder>pushButton</zorder>
-   <zorder>widget</zorder>
-   <zorder>num_samples</zorder>
-   <zorder>num_rays</zorder>
-   <zorder>camera_x</zorder>
-   <zorder>camera_y</zorder>
-   <zorder>camera_z</zorder>
-   <zorder>point_x</zorder>
-   <zorder>point_y</zorder>
-   <zorder>point_z</zorder>
-   <zorder>num_diffuse</zorder>
-   <zorder>num_metal</zorder>
-   <zorder>num_glass</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
-   <zorder>label_5</zorder>
-   <zorder>label_6</zorder>
-   <zorder>label_7</zorder>
-   <zorder>label_8</zorder>
-   <zorder>label_9</zorder>
-   <zorder>label_10</zorder>
-   <zorder>label_11</zorder>
-   <zorder>label_12</zorder>
-   <zorder>label_13</zorder>
-   <zorder>label_14</zorder>
-   <zorder>label_15</zorder>
-   <zorder>num_samples_2</zorder>
-   <zorder>label_16</zorder>
-   <zorder>label_17</zorder>
-   <zorder>camera_z_2</zorder>
-   <zorder>checkBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>454</width>
+     <width>464</width>
      <height>21</height>
     </rect>
    </property>

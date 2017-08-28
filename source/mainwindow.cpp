@@ -8,7 +8,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "camera.h"
 //#include "surface_list.h" //DEPRECATED
 //include surfaces/hitables
 #include "bvh_node.h"
@@ -25,6 +24,8 @@
 #include "checker_texture.h"
 #include "image_texture.h"
 #include "noise_texture.h"
+#include "../ui/scene_widget.h"
+#include "ui/random_scene.h"
 
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
@@ -32,6 +33,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //ui->widget_2 = new scene_widget();
+    scene = new random_scene();
+    scene->show();
+    ui->scene_layout->addWidget(scene);
+    //ui->widget_2->show();
 
     connect(ui->pushButton, SIGNAL(pressed()),
             this, SLOT(raytrace()));
@@ -84,9 +90,19 @@ void MainWindow::raytrace()
         if(world!=NULL)
             delete world;
 
-        world = build_checker_scene(ui->num_diffuse->value(),
+        //world = build_checker_scene(5,5,5);
+        if(scene != NULL)
+        {
+            world = scene->get_scene_data();
+        }
+        else
+        {
+            std::cout << "scene not connected" << std::endl;
+            world = build_checker_scene(5,5,5);
+        }
+        /*world = build_checker_scene(ui->num_diffuse->value(),
                                               ui->num_glass->value(),
-                                              ui->num_metal->value());
+                                              ui->num_metal->value()); */
 
         vec3 camera_center = vec3(ui->camera_x->value(),
                                   ui->camera_y->value(),
@@ -160,7 +176,8 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     //end test
 
     //add difuse/lambert
-    int next_max = ui->num_diffuse->value();
+    //int next_max = ui->num_diffuse->value();
+    int next_max = 1+ num_diffuse;
     while(i <= next_max)
     {
         vec3 diffuse_color((float)rand()/(float)RAND_MAX,
@@ -183,7 +200,8 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     }
 
     //add glass spheres
-    next_max = next_max + 2 * ui->num_glass->value();
+    //next_max = next_max + 2 * ui->num_glass->value();
+    next_max += 2*num_glass;
     while(i <= next_max)
     {
         vec3 location = vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
@@ -200,7 +218,8 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     }
 
     // add metal spheres
-    next_max = next_max + ui->num_metal->value();
+    //next_max = next_max + ui->num_metal->value();
+    next_max += num_metal;
     while(i <= next_max)
     {
         vec3 location;

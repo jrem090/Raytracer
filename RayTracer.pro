@@ -25,7 +25,10 @@ SOURCES +=\
     source/sphere.cpp \
     source/surface_list.cpp \
     source/utilities.cpp \
-    source/vec3.cpp
+    source/vec3.cpp \
+    ui/custom_scene_widget.cpp \
+    ui/scene_widget.cpp \
+    ui/random_scene.cpp
 
 HEADERS  += \
     source/aabb.h \
@@ -48,9 +51,15 @@ HEADERS  += \
     source/texture.h \
     source/utilities.h \
     source/vec3.h \
-    source/image_texture.h
+    source/image_texture.h \
+    ui/custom_scene_widget.h \
+    ui/scene_widget.h \
+    ui/random_scene.h
 
 FORMS    += \
-    ui/mainwindow.ui
+    ui/mainwindow.ui \
+    ui/custom_scene_widget.ui \
+    ui/scene_widget.ui \
+    ui/random_scene.ui
 
 RESOURCES += traceout.ppm
