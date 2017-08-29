@@ -24,8 +24,9 @@
 #include "checker_texture.h"
 #include "image_texture.h"
 #include "noise_texture.h"
-#include "../ui/scene_widget.h"
+#include "ui/scene_widget.h"
 #include "ui/random_scene.h"
+#include "ui/custom_scene_widget.h"
 
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
@@ -41,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->pushButton, SIGNAL(pressed()),
             this, SLOT(raytrace()));
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(scene_mode_changed(int)));
 }
 
 //===================================================================
@@ -147,6 +150,30 @@ void MainWindow::raytrace()
     file.close();
 
     ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
+}
+
+void MainWindow::scene_mode_changed(int new_mode)
+{
+    //scene->hide();
+    ui->scene_layout->removeWidget(scene);
+    delete scene;
+
+    std::cout << "new_mode: " << new_mode << std::endl;
+
+    if(new_mode == 0)
+    {
+        std::cout << "set random scene" << std::endl;
+        scene = new random_scene();
+        //scene->show();
+        ui->scene_layout->addWidget(scene);
+    }
+    if(new_mode == 1)
+    {
+        std::cout << "set custom scene" << std::endl;
+        scene = new custom_scene_widget();
+        //scene->show();
+        ui->scene_layout->addWidget(scene);
+    }
 }
 
 //===================================================================

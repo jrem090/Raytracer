@@ -336,12 +336,12 @@
     </property>
     <item>
      <property name="text">
-      <string>Custom Scene</string>
+      <string>Random Scene</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Random Scene</string>
+      <string>Custom Scene</string>
      </property>
     </item>
    </widget>

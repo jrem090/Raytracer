@@ -28,7 +28,9 @@ SOURCES +=\
     source/vec3.cpp \
     ui/custom_scene_widget.cpp \
     ui/scene_widget.cpp \
-    ui/random_scene.cpp
+    ui/random_scene.cpp \
+    ui/custom_scene/custom_item.cpp \
+    ui/custom_scene/custom_sphere.cpp
 
 HEADERS  += \
     source/aabb.h \
@@ -54,12 +56,16 @@ HEADERS  += \
     source/image_texture.h \
     ui/custom_scene_widget.h \
     ui/scene_widget.h \
-    ui/random_scene.h
+    ui/random_scene.h \
+    ui/custom_scene/custom_item.h \
+    ui/custom_scene/custom_sphere.h
 
 FORMS    += \
     ui/mainwindow.ui \
     ui/custom_scene_widget.ui \
     ui/scene_widget.ui \
-    ui/random_scene.ui
+    ui/random_scene.ui \
+    ui/custom_scene/custom_item.ui \
+    ui/custom_scene/custom_sphere.ui
 
 RESOURCES += traceout.ppm

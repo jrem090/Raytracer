@@ -22,7 +22,7 @@ public:
 
 public slots:
     void raytrace();
-
+    void scene_mode_changed(int new_mode);
 
 private:
     Ui::MainWindow *ui;

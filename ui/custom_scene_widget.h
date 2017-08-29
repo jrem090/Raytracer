@@ -5,19 +5,27 @@
 #include <QWidget>
 
 namespace Ui {
-class CustomSceneWidget;
+class custom_scene_widget;
 }
 
-class CustomSceneWidget : public QWidget
+class custom_scene_widget : public scene_widget
 {
     Q_OBJECT
 
 public:
-    explicit CustomSceneWidget(QWidget *parent = 0);
-    ~CustomSceneWidget();
+    explicit custom_scene_widget(QWidget *parent = 0);
+    virtual bvh_node* get_scene_data();
+    ~custom_scene_widget();
+
+    QWidget *central;
+    QLayout *controlLayout;
+
+public slots:
+    void new_item();
+
 
 private:
-    Ui::CustomSceneWidget *ui;
+    Ui::custom_scene_widget *ui;
 };
 
 #endif // CUSTOM_SCENE_WIDGET_H
