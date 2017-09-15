@@ -12,13 +12,19 @@
 //#include "surface_list.h" //DEPRECATED
 //include surfaces/hitables
 #include "bvh_node.h"
+#include "flip_normals.h"
 #include "sphere.h"
 #include "moving_sphere.h"
+#include "xy_rect.h"
+#include "xz_rect.h"
+#include "yz_rect.h"
+#include "box.h"
 //include materials
 #include "lambertian.h"
 #include "metal.h"
 #include "dielectric.h"
 #include "utilities.h"
+#include "diffuse_light.h"
 //include textures
 #include "texture.h"
 #include "constant_texture.h"
@@ -35,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->pushButton, SIGNAL(pressed()),
             this, SLOT(raytrace()));
+
+    world = build_cornell_box();
+
 }
 
 //===================================================================
@@ -52,20 +61,24 @@ vec3 color(const ray& r, surface *world, int depth)
     {
         ray scattered;
         vec3 attenuation;
-        if(depth < max_depth && rec.mat_ptr->scatter(r,rec,attenuation,scattered))
+         //0 for non-emitting textures
+        vec3 emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
+        if(depth < max_depth && rec.mat_ptr->
+                scatter(r,rec,attenuation,scattered))
         {
-            return attenuation * color(scattered, world, depth + 1);
+            return emitted + attenuation * color(scattered, world, depth + 1);
         }
         else
         {
-            return vec3(0,0,0);
+            return emitted;
         }
     }
     else
     {
-        vec3 unit_direction = unit_vector(r.direction());
+        /*vec3 unit_direction = unit_vector(r.direction());
         float t = 0.5*(unit_direction.y() +1.0);
-        return (1.0-t)*vec3(1.0,1.0,1.0)+t*vec3(0.5,0.7,1.0);
+        return (1.0-t)*vec3(1.0,1.0,1.0)+t*vec3(0.5,0.7,1.0);*/
+        return vec3(0,0,0);
     }
 }
 
@@ -81,12 +94,15 @@ void MainWindow::raytrace()
         int nx = ui->widget->width();
         int ny = ui->widget->height();
 
-        if(world!=NULL)
-            delete world;
+        /*if(world!=NULL)
+            delete world;*/
 
-        world = build_checker_scene(ui->num_diffuse->value(),
+        /*world = build_checker_scene(ui->num_diffuse->value(),
                                               ui->num_glass->value(),
                                               ui->num_metal->value());
+                                            */
+        if(world==NULL)
+            world = build_cornell_box();
 
         vec3 camera_center = vec3(ui->camera_x->value(),
                                   ui->camera_y->value(),
@@ -94,8 +110,10 @@ void MainWindow::raytrace()
         vec3 look_at       = vec3(ui->point_x->value(),
                                   ui->point_y->value(),
                                   ui->point_z->value());
+//        camera cam(camera_center,look_at,vec3(0,1,0),
+//                   90,float(nx)/float(ny),.01,(camera_center-look_at).length(),0,1);
         camera cam(camera_center,look_at,vec3(0,1,0),
-                   90,float(nx)/float(ny),.01,(camera_center-look_at).length(),0,1);
+                   40,float(nx)/float(ny),0.0,10,0,1);
 
         //setup header for PPM file
         stream << "P3\n" << nx << " " << ny << "\n255\n";
@@ -144,14 +162,16 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     number_of_balls++;
     //end test
 
-    surface *list[number_of_balls];
+    surface *list[number_of_balls+1];
  /*   texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
                                                new constant_texture(vec3(0.9,0.9,0.9)));*/
     texture *large_color = new noise_texture();
     list[0] = new sphere(vec3(0,-100.5,-1),100,
                          new lambertian(large_color));
 
-    int i = 1; //start at one since we assume base layer/ball
+    list[1] = new xy_rect(3,5,1,3,-2, new diffuse_light(new constant_texture(vec3(4,4,4))));
+
+    int i = 2; //start at one since we assume base layer/ball
 
     //test
     texture *image_text = new image_texture(QString("C:\\Users\\John\\Projects\\Raytracer\\test_image.jpg"));
@@ -220,4 +240,46 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     bvh_node *new_world = new bvh_node(list,number_of_balls,0,1);
 
     return new_world;
+}
+
+//===================================================================
+bvh_node* MainWindow::build_cornell_box()
+{
+    surface *list[9];
+    int i = 0;
+
+    //define materials
+    material *red = new lambertian(
+                new constant_texture(vec3(0.65,0.05,0.05)));
+    material *white = new lambertian(
+                new constant_texture(vec3(0.73,0.73,0.73)));
+    material *green = new lambertian(
+                new constant_texture(vec3(0.12,0.45,0.15)));
+    material *light = new diffuse_light(
+                new constant_texture(vec3(15,15,15)));
+
+    //define shapes
+    //left_wall
+    list[0] = new flip_normals(new yz_rect(0,555,0,555,555,green));
+    //right wall
+    list[1] = new yz_rect(0,555,0,555,0,red);
+    //light
+    list[2] = new xz_rect(213,343,227,332,553,light);
+    //ceiling
+    list[3] = new flip_normals(new xz_rect(0,555,0,555,554,white));
+    //list[4] = new xz_rect(0,555,0,555,555,white);
+    list[4] =new yz_rect(0,555,0,555,556,green);
+    //floor
+    list[5] = new xz_rect(0,555,0,555,0,white);
+    //back
+    list[6] = new flip_normals(new xy_rect(0,555,0,555,555,white));
+    //box 1
+    list[7] = new box(vec3(130,0,65),  vec3(295,165,230),white);
+    //box 2
+    list[8] = new box(vec3(265,0,295), vec3(430,330,460),white);
+
+    bvh_node *new_world = new bvh_node(list,9,0,1);
+
+    return new_world;
+
 }
