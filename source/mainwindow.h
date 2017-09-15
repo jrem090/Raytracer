@@ -38,6 +38,8 @@ private:
                                  unsigned int num_glass,
                                  unsigned int num_metal);
 
+    bvh_node* build_cornell_box();
+
 };
 
 #endif // MAINWINDOW_H
