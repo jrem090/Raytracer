@@ -30,7 +30,9 @@ SOURCES +=\
     source/xy_rect.cpp \
     source/xz_rect.cpp \
     source/yz_rect.cpp \
-    source/box.cpp
+    source/box.cpp \
+    source/transformation.cpp \
+    source/raytracer.cpp
 
 HEADERS  += \
     source/aabb.h \
@@ -60,7 +62,9 @@ HEADERS  += \
     source/xz_rect.h \
     source/yz_rect.h \
     source/flip_normals.h \
-    source/box.h
+    source/box.h \
+    source/transformation.h \
+    source/raytracer.h
 
 FORMS    += \
     ui/mainwindow.ui

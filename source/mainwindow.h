@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
+#include "raytracer.h"
 
 #include "vec3.h"
 #include "bvh_node.h"
@@ -20,6 +22,14 @@ public:
 
 public slots:
     void raytrace();
+    void finish_raytrace();
+    void update_progress(float percent);
+
+signals:
+    raytrace_command(int width, int height, bvh_node* world,
+                     int samples,
+                     float cam_x, float cam_y, float cam_z,
+                     float focal_x, float focal_y, float focal_z);
 
 
 private:
@@ -27,6 +37,9 @@ private:
 
     vec3  look_at;
     vec3  look_from;
+
+    Raytracer *raytracer;
+    QThread raytrace_thread;
 
     unsigned int num_diffuse;
     unsigned int num_glass;

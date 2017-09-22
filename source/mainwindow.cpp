@@ -9,17 +9,19 @@
 #include "ui_mainwindow.h"
 
 #include "camera.h"
+#include "raytracer.h"
 //#include "surface_list.h" //DEPRECATED
 //include surfaces/hitables
 #include "bvh_node.h"
 #include "flip_normals.h"
+#include "transformation.h"
 #include "sphere.h"
 #include "moving_sphere.h"
 #include "xy_rect.h"
 #include "xz_rect.h"
 #include "yz_rect.h"
 #include "box.h"
-//include materials
+//include materials/shaders
 #include "lambertian.h"
 #include "metal.h"
 #include "dielectric.h"
@@ -43,6 +45,19 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(raytrace()));
 
     world = build_cornell_box();
+
+
+    raytracer = new Raytracer();
+    raytracer->moveToThread(&raytrace_thread);
+    connect(&raytrace_thread, &QThread::finished,
+            raytracer, &QObject::deleteLater);
+    connect(this, SIGNAL(raytrace_command(int,int,bvh_node*,int,float,float,float,float,float,float)),
+            raytracer, SLOT(raytrace(int,int,bvh_node*,int,float,float,float,float,float,float)));
+    connect(raytracer, SIGNAL(raytrace_complete()),
+            this, SLOT(finish_raytrace()));
+    connect(raytracer, SIGNAL(progress_update(float)),
+            this, SLOT(update_progress(float)));
+    raytrace_thread.start();
 
 }
 
@@ -85,7 +100,7 @@ vec3 color(const ray& r, surface *world, int depth)
 //===================================================================
 void MainWindow::raytrace()
 {
-    QString filename = "traceout.ppm";
+    /* QString filename = "traceout.ppm";
     QFile file( filename);
     if ( file.open(QIODevice::ReadWrite) )
     {
@@ -94,13 +109,14 @@ void MainWindow::raytrace()
         int nx = ui->widget->width();
         int ny = ui->widget->height();
 
-        /*if(world!=NULL)
-            delete world;*/
 
-        /*world = build_checker_scene(ui->num_diffuse->value(),
-                                              ui->num_glass->value(),
-                                              ui->num_metal->value());
-                                            */
+//        if(world!=NULL)
+//            delete world;
+
+//        world = build_checker_scene(ui->num_diffuse->value(),
+//                                              ui->num_glass->value(),
+//                                              ui->num_metal->value());
+
         if(world==NULL)
             world = build_cornell_box();
 
@@ -146,9 +162,31 @@ void MainWindow::raytrace()
             }
         }
     }
-    file.close();
+    file.close();*/
 
-    ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
+    if(world==NULL)
+        world = build_cornell_box();
+
+    vec3 camera_loc(ui->camera_x->value(),
+         ui->camera_y->value(),
+         ui->camera_z->value());
+
+    vec3 look_at       = vec3(ui->point_x->value(),
+                              ui->point_y->value(),
+                              ui->point_z->value());
+
+    emit raytrace_command(ui->widget->width(),
+                          ui->widget->height(),
+                          world,
+                          ui->num_samples->value(),
+                          ui->camera_x->value(),
+                          ui->camera_y->value(),
+                          ui->camera_z->value(),
+                          ui->point_x->value(),
+                          ui->point_y->value(),
+                          ui->point_z->value());
+
+    ui->pushButton->setDisabled(true);
 }
 
 //===================================================================
@@ -274,12 +312,24 @@ bvh_node* MainWindow::build_cornell_box()
     //back
     list[6] = new flip_normals(new xy_rect(0,555,0,555,555,white));
     //box 1
-    list[7] = new box(vec3(130,0,65),  vec3(295,165,230),white);
+    list[7] = new translate(new rotate_y(new box(vec3(0,0,0), vec3(165,165,165),white), -18), vec3(130,0,65));
     //box 2
-    list[8] = new box(vec3(265,0,295), vec3(430,330,460),white);
+    list[8] = new translate(new rotate_y(new box(vec3(0,0,0), vec3(165,330,165),white), 15), vec3(265,0,295));
 
     bvh_node *new_world = new bvh_node(list,9,0,1);
 
     return new_world;
 
+}
+
+void MainWindow::finish_raytrace()
+{
+        ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
+
+        ui->pushButton->setDisabled(false);
+}
+
+void MainWindow::update_progress(float percent)
+{
+    ui->progressBar->setValue(percent);
 }

@@ -7,3 +7,6 @@ object_script.RayTracer.Debug
 object_script.RayTracer.Release
 release/qmake_qmake_immediate.qrc
 ui_mainwindow.h
+*.o
+*.exe
+*.debug
