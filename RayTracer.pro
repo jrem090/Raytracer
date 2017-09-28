@@ -32,7 +32,8 @@ SOURCES +=\
     source/yz_rect.cpp \
     source/box.cpp \
     source/transformation.cpp \
-    source/raytracer.cpp
+    source/raytracer.cpp \
+    source/constant_medium.cpp
 
 HEADERS  += \
     source/aabb.h \
@@ -64,7 +65,9 @@ HEADERS  += \
     source/flip_normals.h \
     source/box.h \
     source/transformation.h \
-    source/raytracer.h
+    source/raytracer.h \
+    source/constant_medium.h \
+    source/isotropic.h
 
 FORMS    += \
     ui/mainwindow.ui
