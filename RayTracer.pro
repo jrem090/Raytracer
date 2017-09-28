@@ -25,7 +25,15 @@ SOURCES +=\
     source/sphere.cpp \
     source/surface_list.cpp \
     source/utilities.cpp \
-    source/vec3.cpp
+    source/vec3.cpp \
+    source/plane.cpp \
+    source/xy_rect.cpp \
+    source/xz_rect.cpp \
+    source/yz_rect.cpp \
+    source/box.cpp \
+    source/transformation.cpp \
+    source/raytracer.cpp \
+    source/constant_medium.cpp
 
 HEADERS  += \
     source/aabb.h \
@@ -48,7 +56,18 @@ HEADERS  += \
     source/texture.h \
     source/utilities.h \
     source/vec3.h \
-    source/image_texture.h
+    source/image_texture.h \
+    source/diffuse_light.h \
+    source/plane.h \
+    source/xy_rect.h \
+    source/xz_rect.h \
+    source/yz_rect.h \
+    source/flip_normals.h \
+    source/box.h \
+    source/transformation.h \
+    source/raytracer.h \
+    source/constant_medium.h \
+    source/isotropic.h
 
 FORMS    += \
     ui/mainwindow.ui

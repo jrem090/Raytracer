@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>454</width>
-    <height>532</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -97,13 +97,13 @@
      </rect>
     </property>
     <property name="minimum">
-     <double>-10.000000000000000</double>
+     <double>-1000.000000000000000</double>
     </property>
     <property name="maximum">
-     <double>10.000000000000000</double>
+     <double>1000.000000000000000</double>
     </property>
     <property name="value">
-     <double>-2.000000000000000</double>
+     <double>278.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="camera_y">
@@ -116,13 +116,16 @@
      </rect>
     </property>
     <property name="minimum">
-     <double>-10.000000000000000</double>
+     <double>-1000.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>1000.000000000000000</double>
     </property>
     <property name="singleStep">
      <double>10.000000000000000</double>
     </property>
     <property name="value">
-     <double>2.000000000000000</double>
+     <double>278.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="camera_z">
@@ -135,13 +138,13 @@
      </rect>
     </property>
     <property name="minimum">
-     <double>-10.000000000000000</double>
+     <double>-1000.000000000000000</double>
     </property>
     <property name="maximum">
-     <double>10.000000000000000</double>
+     <double>1000.000000000000000</double>
     </property>
     <property name="value">
-     <double>1.000000000000000</double>
+     <double>-800.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="point_x">
@@ -154,10 +157,13 @@
      </rect>
     </property>
     <property name="minimum">
-     <double>-10.000000000000000</double>
+     <double>-1000.000000000000000</double>
     </property>
     <property name="maximum">
-     <double>10.000000000000000</double>
+     <double>1000.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>278.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="point_y">
@@ -170,10 +176,13 @@
      </rect>
     </property>
     <property name="minimum">
-     <double>-10.000000000000000</double>
+     <double>-1000.000000000000000</double>
     </property>
     <property name="maximum">
-     <double>10.000000000000000</double>
+     <double>1000.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>278.000000000000000</double>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="point_z">
@@ -186,13 +195,13 @@
      </rect>
     </property>
     <property name="minimum">
-     <double>-10.000000000000000</double>
+     <double>-1000.000000000000000</double>
     </property>
     <property name="maximum">
-     <double>10.000000000000000</double>
+     <double>1000.000000000000000</double>
     </property>
     <property name="value">
-     <double>-1.000000000000000</double>
+     <double>0.000000000000000</double>
     </property>
    </widget>
    <widget class="QSpinBox" name="num_diffuse">
@@ -500,6 +509,19 @@
      <double>1.000000000000000</double>
     </property>
    </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>480</y>
+      <width>421</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
    <zorder>pushButton</zorder>
    <zorder>widget</zorder>
    <zorder>num_samples</zorder>
@@ -533,6 +555,7 @@
    <zorder>label_17</zorder>
    <zorder>camera_z_2</zorder>
    <zorder>checkBox</zorder>
+   <zorder>progressBar</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

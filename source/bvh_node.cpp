@@ -9,7 +9,7 @@ int box_x_compare (const void * a, const void * b)
     aabb box_left, box_right;
     surface *ah = *(surface**)a;
     surface *bh = *(surface**)b;
-    if(!ah->bounding_box(0,0,box_left) || bh->bounding_box(0,0,box_right))
+    if(!ah->bounding_box(0,0,box_left) || !bh->bounding_box(0,0,box_right))
     {
         std::cerr << "no bounding box in bvh_node x_compare" << std::endl;
     }
