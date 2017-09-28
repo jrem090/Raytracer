@@ -34,6 +34,8 @@
 #include "image_texture.h"
 #include "noise_texture.h"
 
+#include "constant_medium.h"
+
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -294,7 +296,7 @@ bvh_node* MainWindow::build_cornell_box()
     material *green = new lambertian(
                 new constant_texture(vec3(0.12,0.45,0.15)));
     material *light = new diffuse_light(
-                new constant_texture(vec3(15,15,15)));
+                new constant_texture(vec3(7,7,7)));
 
     //define shapes
     //left_wall
@@ -302,7 +304,7 @@ bvh_node* MainWindow::build_cornell_box()
     //right wall
     list[1] = new yz_rect(0,555,0,555,0,red);
     //light
-    list[2] = new xz_rect(213,343,227,332,553,light);
+    list[2] = new xz_rect(113,443,127,432,553,light);
     //ceiling
     list[3] = new flip_normals(new xz_rect(0,555,0,555,554,white));
     //list[4] = new xz_rect(0,555,0,555,555,white);
@@ -311,11 +313,13 @@ bvh_node* MainWindow::build_cornell_box()
     list[5] = new xz_rect(0,555,0,555,0,white);
     //back
     list[6] = new flip_normals(new xy_rect(0,555,0,555,555,white));
-    //box 1
-    list[7] = new translate(new rotate_y(new box(vec3(0,0,0), vec3(165,165,165),white), -18), vec3(130,0,65));
-    //box 2
-    list[8] = new translate(new rotate_y(new box(vec3(0,0,0), vec3(165,330,165),white), 15), vec3(265,0,295));
 
+    surface* b1 = new translate(new rotate_y(new box(vec3(0,0,0), vec3(165,165,165),white), -18), vec3(130,0,65));
+    surface* b2 = new translate(new rotate_y(new box(vec3(0,0,0), vec3(165,330,165),white), 15), vec3(265,0,295));
+    //box 1
+    list[7] = new constant_medium(b1, 0.01, new constant_texture(vec3(1.0,1.0,1.0)));
+    //box 2
+    list[8] = new constant_medium(b2, 0.01, new constant_texture(vec3(0.0,0.0,0.0)));
     bvh_node *new_world = new bvh_node(list,9,0,1);
 
     return new_world;
