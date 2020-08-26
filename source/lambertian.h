@@ -34,7 +34,7 @@ public:
     {
         //define a randomly scattered ray and accumulate albedo;
         vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-        scattered = ray(rec.p, target-rec.p , r_in.time());
+        scattered = ray(rec.p, unit_vector(target-rec.p) , r_in.time());
         attenuation = albedo->value(rec.u,rec.v,rec.p);
         return true;
     }

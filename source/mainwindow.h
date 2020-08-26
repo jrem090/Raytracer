@@ -24,6 +24,8 @@ public slots:
     void raytrace();
     void finish_raytrace();
     void update_progress(float percent);
+    void scene_change(int scene);
+    void show_help();
 
 signals:
     raytrace_command(int width, int height, bvh_node* world,

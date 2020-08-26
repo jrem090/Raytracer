@@ -35,6 +35,7 @@
 #include "noise_texture.h"
 
 #include "constant_medium.h"
+#include "helpdialog.h"
 
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
@@ -59,7 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(finish_raytrace()));
     connect(raytracer, SIGNAL(progress_update(float)),
             this, SLOT(update_progress(float)));
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(scene_change(int)));
+    connect(ui->menuHelp, SIGNAL(triggered(QAction*)), this, SLOT(show_help()));
     raytrace_thread.start();
+
 
 }
 
@@ -78,7 +82,7 @@ vec3 color(const ray& r, surface *world, int depth)
     {
         ray scattered;
         vec3 attenuation;
-         //0 for non-emitting textures
+        //0 for non-emitting textures
         vec3 emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
         if(depth < max_depth && rec.mat_ptr->
                 scatter(r,rec,attenuation,scattered))
@@ -166,12 +170,22 @@ void MainWindow::raytrace()
     }
     file.close();*/
 
-    if(world==NULL)
-        world = build_cornell_box();
+    if(world != NULL)
+        delete world;
 
+    if(ui->comboBox->currentIndex()==0)
+    {
+        world = build_checker_scene(ui->num_diffuse->value(),
+                                    ui->num_glass->value(),
+                                    ui->num_metal->value());
+    }
+    else
+    {
+        world = build_cornell_box();
+    }
     vec3 camera_loc(ui->camera_x->value(),
-         ui->camera_y->value(),
-         ui->camera_z->value());
+                    ui->camera_y->value(),
+                    ui->camera_z->value());
 
     vec3 look_at       = vec3(ui->point_x->value(),
                               ui->point_y->value(),
@@ -199,28 +213,29 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
     int number_of_balls = 1 + num_diffuse + num_glass*2 + num_metal;
 
     //test
-    number_of_balls++;
+    //number_of_balls++;
     //end test
 
     surface *list[number_of_balls+1];
- /*   texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
+    /*   texture *large_color = new checker_texture(new constant_texture(vec3(0.15,0.3,0.1)),
                                                new constant_texture(vec3(0.9,0.9,0.9)));*/
     texture *large_color = new noise_texture();
     list[0] = new sphere(vec3(0,-100.5,-1),100,
-                         new lambertian(large_color));
+                         //new lambertian(large_color));
+                         new lambertian(new constant_texture(vec3(0.1, 0.8, 0.3))));
 
-    list[1] = new xy_rect(3,5,1,3,-2, new diffuse_light(new constant_texture(vec3(4,4,4))));
+    list[1] = new xz_rect(-50,50,-50,50,50, new diffuse_light(new constant_texture(vec3(1,1,1))));
 
     int i = 2; //start at one since we assume base layer/ball
 
     //test
-    texture *image_text = new image_texture(QString("C:\\Users\\John\\Projects\\Raytracer\\test_image.jpg"));
-    list[i] = new sphere(vec3(0,0,-1),1.25,new lambertian(image_text));
-    ++i;
+    //texture *image_text = new image_texture(QString("C:\\Users\\John\\Projects\\Raytracer\\test_image.jpg"));
+    //list[i] = new sphere(vec3(0,0,-1),1.25,new lambertian(image_text));
+    //++i;
     //end test
 
     //add difuse/lambert
-    int next_max = ui->num_diffuse->value();
+    int next_max = ui->num_diffuse->value()+2;
     while(i <= next_max)
     {
         vec3 diffuse_color((float)rand()/(float)RAND_MAX,
@@ -236,9 +251,12 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
                        (location.y()+((float)rand()/
                                       (float)RAND_MAX)),
                        location.z());
-        list[i] = new moving_sphere(location,location2, 0.5, 0, 1,
-                                    new lambertian(color));
-
+        //TODO fix this to be dependent on input
+        if(ui->checkBox->isChecked())
+            list[i] = new moving_sphere(location,location2, 0.5, 0, ui->time->value(),
+                                        new lambertian(color));
+        else
+            list[i] = new sphere(location,0.5, new lambertian(color));
         ++i;
     }
 
@@ -272,12 +290,21 @@ bvh_node* MainWindow::build_checker_scene(unsigned int num_diffuse,
         location= vec3((((float)rand()/(float)RAND_MAX)-.5)*10,
                        (((float)rand()/(float)RAND_MAX)-1)*0.25,
                        (((float)rand()/(float)RAND_MAX)-.5)*10);
-        list[i] = new sphere(location,0.5, new metal(color));
+        vec3 location2(location.x(),
+                       (location.y()+((float)rand()/
+                                      (float)RAND_MAX)),
+                       location.z());
+        if(ui->checkBox->isChecked())
+            list[i] = new moving_sphere(location,location2, 0.5, 0, ui->time->value(),
+                                        new metal(color));
+        else
+            list[i] = new sphere(location,0.5, new metal(color));
 
         ++i;
     }
 
-    bvh_node *new_world = new bvh_node(list,number_of_balls,0,1);
+
+    bvh_node *new_world = new bvh_node(list,number_of_balls+1,0,ui->time->value());
 
     return new_world;
 }
@@ -304,7 +331,7 @@ bvh_node* MainWindow::build_cornell_box()
     //right wall
     list[1] = new yz_rect(0,555,0,555,0,red);
     //light
-    list[2] = new xz_rect(113,443,127,432,553,light);
+    list[2] = new flip_normals(new xz_rect(113,443,127,432,553,light));
     //ceiling
     list[3] = new flip_normals(new xz_rect(0,555,0,555,554,white));
     //list[4] = new xz_rect(0,555,0,555,555,white);
@@ -320,7 +347,7 @@ bvh_node* MainWindow::build_cornell_box()
     list[7] = new constant_medium(b1, 0.01, new constant_texture(vec3(1.0,1.0,1.0)));
     //box 2
     list[8] = new constant_medium(b2, 0.01, new constant_texture(vec3(0.0,0.0,0.0)));
-    bvh_node *new_world = new bvh_node(list,9,0,1);
+    bvh_node *new_world = new bvh_node(list,7,0,0);
 
     return new_world;
 
@@ -328,12 +355,41 @@ bvh_node* MainWindow::build_cornell_box()
 
 void MainWindow::finish_raytrace()
 {
-        ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
+    ui->widget->setStyleSheet("QWidget {background-image: url(./traceout.ppm) stretch;}");
 
-        ui->pushButton->setDisabled(false);
+    ui->pushButton->setDisabled(false);
 }
 
 void MainWindow::update_progress(float percent)
 {
     ui->progressBar->setValue(percent);
+}
+
+void MainWindow::scene_change(int scene)
+{
+    if (scene == 0)
+    {
+        ui->camera_x->setValue(1.00);
+        ui->camera_y->setValue(0.00);
+        ui->camera_z->setValue(1.00);
+        ui->point_x->setValue(0.00);
+        ui->point_y->setValue(0.00);
+        ui->point_z->setValue(0.00);
+    }
+    else if (scene == 1)
+    {
+        ui->camera_x->setValue(278.00);
+        ui->camera_y->setValue(278.00);
+        ui->camera_z->setValue(-800.00);
+        ui->point_x->setValue(278.00);
+        ui->point_y->setValue(278.00);
+        ui->point_z->setValue(0.00);
+    }
+
+}
+
+void MainWindow::show_help()
+{
+    HelpDialog* hd = new HelpDialog(this);
+    hd->show();
 }

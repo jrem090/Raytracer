@@ -14,6 +14,7 @@ TEMPLATE = app
 #VPATH+=./materials ./textures ./surfaces
 
 SOURCES +=\
+    helpdialog.cpp \
     source/aabb.cpp \
     source/bvh_node.cpp \
     source/camera.cpp \
@@ -36,6 +37,7 @@ SOURCES +=\
     source/constant_medium.cpp
 
 HEADERS  += \
+    helpdialog.h \
     source/aabb.h \
     source/bvh_node.h \
     source/camera.h \
@@ -70,6 +72,8 @@ HEADERS  += \
     source/isotropic.h
 
 FORMS    += \
+    helpdialog.ui \
     ui/mainwindow.ui
 
-RESOURCES += traceout.ppm
+RESOURCES += traceout.ppm \
+    Textures.qrc
