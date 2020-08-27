@@ -36,6 +36,7 @@
 
 #include "constant_medium.h"
 #include "helpdialog.h"
+#include "bvhviewerdialog.h"
 
 //===================================================================
 MainWindow::MainWindow(QWidget *parent) :
@@ -62,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(update_progress(float)));
     connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(scene_change(int)));
     connect(ui->menuHelp, SIGNAL(triggered(QAction*)), this, SLOT(show_help()));
+    connect(ui->menuBVH, SIGNAL(triggered(QAction*)), this, SLOT(show_bvh()));
     raytrace_thread.start();
 
 
@@ -393,3 +395,13 @@ void MainWindow::show_help()
     HelpDialog* hd = new HelpDialog(this);
     hd->show();
 }
+
+void MainWindow::show_bvh()
+{
+    BVHViewerDialog* bvhvd = new BVHViewerDialog(this);
+    connect(this, SIGNAL(raytrace_command(int,int,bvh_node*,int,float,float,float,float,float,float)),
+        bvhvd, SLOT(bvh_command(int,int,bvh_node*,int,float,float,float,float,float,float)));
+    bvhvd->show();
+}
+
+

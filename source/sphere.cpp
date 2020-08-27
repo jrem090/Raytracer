@@ -52,6 +52,42 @@ bool sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
 
 }
 
+int sphere::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    vec3 oc = r.origin()-center;
+    float a = dot(r.direction(),r.direction());
+    float b = 2*dot(oc, r.direction());
+    float c = dot(oc,oc) - (radius *  radius);
+    float discriminant = b*b - 4*a*c;
+
+    //if discriminant is greater than 0 the ray hits the target
+    if(discriminant > 0)
+    {
+        float temp = (-b - sqrt(discriminant))/(2*a);
+        if(temp > t_min && temp < t_max)
+        {
+            rec.t = temp;
+            rec.p = r.point_at_parameter(rec.t);
+            get_sphere_uv((rec.p-center)/radius, rec.u, rec.v);
+            rec.normal = (rec.p-center) / radius;
+            rec.mat_ptr = mat;
+            return 1;
+        }
+
+        temp = (-b + sqrt(discriminant))/(2*a);
+        if(temp > t_min && temp < t_max)
+        {
+            rec.t = temp;
+            rec.p = r.point_at_parameter(rec.t);
+            get_sphere_uv((rec.p-center)/radius, rec.u, rec.v);
+            rec.normal = (rec.p-center) / radius;
+            rec.mat_ptr = mat;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 bool sphere::bounding_box(float t0, float t1, aabb &box) const
 {
     box = aabb(center - vec3(radius,radius,radius),

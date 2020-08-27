@@ -11,6 +11,7 @@ public:
     moving_sphere(vec3 cen0, vec3 cen1,float r, float t0, float t1, material* m);
 
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
+    virtual int bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
 
     bool bounding_box(float t0, float t1, aabb &box) const;
 

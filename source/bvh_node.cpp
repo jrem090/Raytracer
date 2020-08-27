@@ -172,6 +172,22 @@ bool bvh_node::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 }
 
 //===================================================================
+int bvh_node::bvh_hit(const ray& r, float t_min, float t_max, hit_record& rec) const
+{
+    int count = 0;
+    if(box.hit(r, t_min, t_max))
+    {
+
+        hit_record left_rec, right_rec;
+        int hit_left  = left->bvh_hit(r, t_min, t_max, left_rec);
+        int hit_right = right->bvh_hit(r, t_min, t_max, right_rec);
+
+        count = 1 + hit_left + hit_right;
+    }
+    return count;
+}
+
+//===================================================================
 bool bvh_node::bounding_box(float t0, float t1, aabb& box) const
 {
     box = this->box;

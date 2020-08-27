@@ -38,6 +38,11 @@ public:
                      float t_max,
                      hit_record& rec) const;
 
+    virtual int bvh_hit(const ray& r,
+        float t_min,
+        float t_max,
+        hit_record& rec) const;
+
     /**
      * @brief bounding_box
      * @param t0

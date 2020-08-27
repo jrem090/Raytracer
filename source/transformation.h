@@ -10,7 +10,7 @@ public:
         ptr(p),
         offset(displacement){}
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
-
+    virtual int bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
     virtual bool bounding_box(float t0, float t1, aabb &box) const;
 
     // variables
@@ -23,6 +23,7 @@ class rotate_y : public surface
 public: 
     rotate_y(surface *p, float angle);
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
+    virtual int bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
     virtual bool bounding_box(float t0, float t1, aabb &box) const;
     
     surface *ptr;
@@ -37,6 +38,7 @@ class rotate_x : public surface
 public:
     rotate_x(surface *p, float angle);
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
+    virtual int bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
     virtual bool bounding_box(float t0, float t1, aabb &box) const;
 
     surface *ptr;
@@ -51,6 +53,7 @@ class rotate_z : public surface
 public:
     rotate_z(surface *p, float angle);
     virtual bool hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
+    virtual int bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const;
     virtual bool bounding_box(float t0, float t1, aabb &box) const;
 
     surface *ptr;

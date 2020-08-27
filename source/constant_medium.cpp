@@ -58,6 +58,13 @@ bool constant_medium::hit(const ray &r, float t_min,
     return false;
 }
 
+
+int constant_medium::bvh_hit(const ray &r, float t_min,
+                     float t_max, hit_record &rec) const
+{
+    return boundary->bvh_hit(r,t_min, t_max,rec)    ;
+}
+
 bool constant_medium::bounding_box(float t0, float t1, aabb &box) const
 {
     return boundary->bounding_box(t0,t1,box);

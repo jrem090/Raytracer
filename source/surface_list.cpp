@@ -29,6 +29,23 @@ bool surface_list::hit(const ray &r, float t_min, float t_max, hit_record &rec) 
     return hit_anything;
 }
 
+int surface_list::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    hit_record temp_rec;
+    int hit = 0;
+    //double closest_so_far = t_max;
+    for(int i = 0; i < list_size; i++)
+    {
+        int temp = list[i]->bvh_hit(r, t_min, t_max, temp_rec);
+        if( temp > hit)
+        {
+            hit = temp;
+            rec = temp_rec;
+        }
+    }
+    return hit;
+}
+
 bool surface_list::bounding_box(float t0, float t1, aabb &box) const
 {
     if(list_size < 1)

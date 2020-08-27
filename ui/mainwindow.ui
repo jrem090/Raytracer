@@ -389,7 +389,14 @@
     </property>
     <addaction name="actionHelp"/>
    </widget>
+   <widget class="QMenu" name="menuBVH">
+    <property name="title">
+     <string>BVH</string>
+    </property>
+    <addaction name="actionviewer"/>
+   </widget>
    <addaction name="menuHelp"/>
+   <addaction name="menuBVH"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -403,6 +410,16 @@
   <action name="actionHelp">
    <property name="text">
     <string>Help</string>
+   </property>
+  </action>
+  <action name="actionBVH_Viewer">
+   <property name="text">
+    <string>BVH Viewer</string>
+   </property>
+  </action>
+  <action name="actionviewer">
+   <property name="text">
+    <string>viewer</string>
    </property>
   </action>
  </widget>
