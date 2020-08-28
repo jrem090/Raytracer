@@ -11,8 +11,6 @@ BVHViewerDialog::BVHViewerDialog(QWidget *parent) :
     bvher->moveToThread(&bvh_thread);
     connect(&bvh_thread, &QThread::finished,
             bvher, &QObject::deleteLater);
-    //connect(this, SIGNAL(bvh_command(int,int,bvh_node*,int,float,float,float,float,float,float)),
-    //        bvher, SLOT(bvh_trace(int,int,bvh_node*,int,float,float,float,float,float,float)));
     connect(bvher, SIGNAL(bvh_complete()),
             this, SLOT(finish_bvh()));
     connect(bvher, SIGNAL(progress_update(float)),
