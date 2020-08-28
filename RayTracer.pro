@@ -14,7 +14,7 @@ TEMPLATE = app
 #VPATH+=./materials ./textures ./surfaces
 
 SOURCES +=\
-    helpdialog.cpp \
+    source/helpdialog.cpp \
     source/aabb.cpp \
     source/bvh_node.cpp \
     source/bvhviewer.cpp \
@@ -39,7 +39,7 @@ SOURCES +=\
     source/constant_medium.cpp
 
 HEADERS  += \
-    helpdialog.h \
+    source/helpdialog.h \
     source/aabb.h \
     source/bvh_node.h \
     source/bvhviewer.h \
@@ -76,8 +76,8 @@ HEADERS  += \
     source/isotropic.h
 
 FORMS    += \
-    helpdialog.ui \
-    source/bvhviewerdialog.ui \
+    ui/helpdialog.ui \
+    ui/bvhviewerdialog.ui \
     ui/mainwindow.ui
 
 RESOURCES += traceout.ppm \
