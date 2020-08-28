@@ -16,8 +16,8 @@ private:
     vec3 color(const ray& r, surface *world, int depth);
 
 signals:
-    raytrace_complete();
-    progress_update(float percentage);
+void raytrace_complete();
+void progress_update(float percentage);
 
 public slots:
         void raytrace(int width, int height, bvh_node* world,

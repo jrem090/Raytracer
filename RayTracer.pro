@@ -17,6 +17,8 @@ SOURCES +=\
     helpdialog.cpp \
     source/aabb.cpp \
     source/bvh_node.cpp \
+    source/bvhviewer.cpp \
+    source/bvhviewerdialog.cpp \
     source/camera.cpp \
     source/main.cpp \
     source/mainwindow.cpp \
@@ -40,6 +42,8 @@ HEADERS  += \
     helpdialog.h \
     source/aabb.h \
     source/bvh_node.h \
+    source/bvhviewer.h \
+    source/bvhviewerdialog.h \
     source/camera.h \
     source/checker_texture.h \
     source/constant_texture.h \
@@ -73,6 +77,7 @@ HEADERS  += \
 
 FORMS    += \
     helpdialog.ui \
+    source/bvhviewerdialog.ui \
     ui/mainwindow.ui
 
 RESOURCES += traceout.ppm \

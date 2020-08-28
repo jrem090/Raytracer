@@ -34,6 +34,11 @@ bool box::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     return list_ptr->hit(r, t_min, t_max,rec);
 }
 
+int box::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    return list_ptr->bvh_hit(r,t_min, t_max, rec);
+}
+
 bool box::bounding_box(float t0, float t1, aabb &box) const
 {
     box = aabb(pmin,pmax);

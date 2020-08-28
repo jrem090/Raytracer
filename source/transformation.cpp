@@ -14,6 +14,12 @@ bool translate::hit(const ray &r, float t_min, float t_max, hit_record &rec) con
         return false;
 }
 
+int translate::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    ray moved_r(r.origin()-offset, r.direction(),r.time());
+    return ptr->bvh_hit(moved_r,t_min, t_max, rec);
+}
+
 bool translate::bounding_box(float t0, float t1, aabb &box) const
 {
     if(ptr->bounding_box(t0,t1,box))
@@ -103,6 +109,43 @@ bool rotate_x::hit(const ray &r, float t_min, float t_max, hit_record &rec) cons
 
 }
 
+int rotate_x::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    vec3 origin = r.origin();
+    vec3 direction = r.direction();
+
+    origin[1] = cos_theta * r.origin()[1] - sin_theta*r.origin()[2];
+    origin[2] = sin_theta * r.origin()[1] + cos_theta*r.origin()[2];
+
+    direction[1] = cos_theta * r.direction()[1] - sin_theta*r.direction()[2];
+    direction[2] = sin_theta * r.direction()[1] + cos_theta*r.direction()[2];
+
+    ray rotated_ray(origin,direction,r.time());
+
+    if(ptr->bvh_hit(rotated_ray,t_min,t_max,rec) > 0)
+    {
+        vec3 p = rec.p;
+        vec3 normal = rec.normal;
+
+        p[1] = cos_theta * rec.p[1] - sin_theta*rec.p[2];
+        p[2] = sin_theta * rec.p[1] + cos_theta*rec.p[2];
+
+        normal[1] = cos_theta * rec.normal[1] - sin_theta*rec.normal[2];
+        normal[2] = sin_theta * rec.normal[1] + cos_theta*rec.normal[2];
+
+        rec.p = p;
+        rec.normal = normal;
+        return 1;
+
+    }
+    else
+    {
+        return 0;
+    }
+
+
+}
+
 bool rotate_x::bounding_box(float t0, float t1, aabb &box) const
 {
     box = bbox;
@@ -182,6 +225,43 @@ bool rotate_y::hit(const ray &r, float t_min, float t_max, hit_record &rec) cons
     else
     {
         return false;
+    }
+
+
+}
+
+int rotate_y::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    vec3 origin = r.origin();
+    vec3 direction = r.direction();
+
+    origin[0] = cos_theta * r.origin()[0] - sin_theta*r.origin()[2];
+    origin[2] = sin_theta * r.origin()[0] + cos_theta*r.origin()[2];
+
+    direction[0] = cos_theta * r.direction()[0] - sin_theta*r.direction()[2];
+    direction[2] = sin_theta * r.direction()[0] + cos_theta*r.direction()[2];
+
+    ray rotated_ray(origin,direction,r.time());
+
+    if(ptr->bvh_hit(rotated_ray,t_min,t_max,rec) > 0)
+    {
+        vec3 p = rec.p;
+        vec3 normal = rec.normal;
+
+        p[0] = cos_theta * rec.p[0] - sin_theta*rec.p[2];
+        p[2] = sin_theta * rec.p[0] + cos_theta*rec.p[2];
+
+        normal[0] = cos_theta * rec.normal[0] - sin_theta*rec.normal[2];
+        normal[2] = sin_theta * rec.normal[0] + cos_theta*rec.normal[2];
+
+        rec.p = p;
+        rec.normal = normal;
+        return 1;
+
+    }
+    else
+    {
+        return 0;
     }
 
 
@@ -270,6 +350,23 @@ bool rotate_z::hit(const ray &r, float t_min, float t_max, hit_record &rec) cons
 
 
 }
+
+int rotate_z::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    vec3 origin = r.origin();
+    vec3 direction = r.direction();
+
+    origin[0] = cos_theta * r.origin()[0] - sin_theta*r.origin()[1];
+    origin[1] = sin_theta * r.origin()[0] + cos_theta*r.origin()[1];
+
+    direction[0] = cos_theta * r.direction()[0] - sin_theta*r.direction()[1];
+    direction[1] = sin_theta * r.direction()[0] + cos_theta*r.direction()[1];
+
+    ray rotated_ray(origin,direction,r.time());
+
+    return ptr->hit(rotated_ray,t_min,t_max,rec);
+}
+
 
 bool rotate_z::bounding_box(float t0, float t1, aabb &box) const
 {

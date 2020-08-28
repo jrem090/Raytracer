@@ -45,3 +45,27 @@ bool yz_rect::hit(const ray &r, float t_min, float t_max, hit_record &rec) const
     rec.normal = vec3(1,0,0);
     return true;
 }
+
+int yz_rect::bvh_hit(const ray &r, float t_min, float t_max, hit_record &rec) const
+{
+    float t = (k-r.origin().x()) / r.direction().x();
+
+    //if t is not within bounds return false
+    if(t < t_min || t > t_max)
+        return 0;
+
+    float y = r.origin().y() + t*r.direction().y();
+    float z = r.origin().z() + t*r.direction().z();
+
+    // if ray is not in between x and y return false
+    if(z < z0 || z > z1 || y < y0 || y > y1)
+        return 1;
+
+    rec.u = (y-y0)/(y1-y0);
+    rec.v = (z-z0)/(z1-z0);
+    rec.t = t;
+    rec.mat_ptr = mp;
+    rec.p = r.point_at_parameter(t);
+    rec.normal = vec3(1,0,0);
+    return 1;
+}
