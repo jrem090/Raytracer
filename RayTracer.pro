@@ -73,7 +73,10 @@ HEADERS  += \
     source/transformation.h \
     source/raytracer.h \
     source/constant_medium.h \
-    source/isotropic.h
+    source/isotropic.h \
+    oidn/include/OpenImageDenoise/oidn.hpp \
+    oidn/include/OpenImageDenoise/oidn.h \
+    oidn/include/OpenImageDenoise/version.h
 
 FORMS    += \
     ui/helpdialog.ui \

@@ -14,6 +14,7 @@
 
 //include textures
 #include "texture.h"
+#include "oidn/include/OpenImageDenoise/oidn.hpp"
 
 
 Raytracer::Raytracer(QObject *parent) : QObject(parent)
@@ -43,6 +44,77 @@ void Raytracer::raytrace(int width, int height, bvh_node* world, int samples,
         //setup header for PPM file
         stream << "P3\n" << nx << " " << ny << "\n255\n";
 
+        if(true)
+        {
+            float buffer[nx * ny *3];
+            float output[nx * ny *3];
+            for(int j = ny -1; j >= 0; j--)
+            {
+                for(int i = 0; i <nx; i++)
+                {
+                    int aa_samples = samples;
+                    vec3 col(0,0,0);
+                    for(int g = 0; g < aa_samples; g++)
+                    {
+                        srand(j*i*g);
+                        float u = (float(i + (float)rand()/(float)RAND_MAX)) / float(nx);
+                        float v = (float(j + (float)rand()/(float)RAND_MAX)) / float(ny);
+
+                        ray r = cam.get_ray(u,v);
+                        col += color(r,world,0);
+
+                    }
+
+                    col /= aa_samples;
+                    col = vec3(sqrt(col[0]),sqrt(col[1]),sqrt(col[2]));
+                    buffer[i*j*3] = col[0];
+                    buffer[i*j*3+1] = col[1];
+                    buffer[i*j*3+2] = col[2];
+                    //int ir = int(255.99*col[0]);
+                    //int ig = int(255.99*col[1]);
+                    //int ib = int(255.99*col[2]);
+
+                    //stream << ir << " " << ig << " " << ib << "\n";
+                }
+            }
+                //intel denoise stuff
+                // Create an Intel Open Image Denoise device
+                oidn::DeviceRef device = oidn::newDevice();
+                device.commit();
+
+                // Create a denoising filter
+                oidn::FilterRef filter = device.newFilter("RT"); // generic ray tracing filter
+                filter.setImage("color",  buffer,  oidn::Format::Float3, width, height);
+                //filter.setImage("albedo", albedoPtr, oidn::Format::Float3, width, height); // optional
+                //filter.setImage("normal", normalPtr, oidn::Format::Float3, width, height); // optional
+                filter.setImage("output", output, oidn::Format::Float3, width, height);
+                filter.set("hdr", false); // image is HDR
+                filter.commit();
+
+                // Filter the image
+                filter.execute();
+
+                // Check for errors
+                const char* errorMessage;
+                if (device.getError(errorMessage) != oidn::Error::None)
+                  std::cout << "Error: " << errorMessage << std::endl;
+
+
+                for(int i = 0; i < nx; ++i)
+                {
+                    for (int j=0; j < ny; ++j)
+                    {
+                        int ir = int(255.99*output[i*j*3]);
+                        int ig = int(255.99*output[i*j*3 +1]);
+                        int ib = int(255.99*output[i*j*3 +2]);
+
+                        stream << ir << " " << ig << " " << ib << "\n";
+                    }
+                }
+
+        }
+        else
+        {
         for(int j = ny -1; j >= 0; j--)
         {
             for(int i = 0; i <nx; i++)
@@ -70,6 +142,7 @@ void Raytracer::raytrace(int width, int height, bvh_node* world, int samples,
             }
             float percent = ((float)ny - (float)j)/(float)ny;
             emit progress_update(percent*100);
+        }
         }
     }
     file.close();
