@@ -98,9 +98,6 @@ vec3 color(const ray& r, surface *world, int depth)
     }
     else
     {
-        /*vec3 unit_direction = unit_vector(r.direction());
-        float t = 0.5*(unit_direction.y() +1.0);
-        return (1.0-t)*vec3(1.0,1.0,1.0)+t*vec3(0.5,0.7,1.0);*/
         return vec3(0,0,0);
     }
 }
@@ -108,69 +105,7 @@ vec3 color(const ray& r, surface *world, int depth)
 //===================================================================
 void MainWindow::raytrace()
 {
-    /* QString filename = "traceout.ppm";
-    QFile file( filename);
-    if ( file.open(QIODevice::ReadWrite) )
-    {
-        QTextStream stream( &file );
-
-        int nx = ui->widget->width();
-        int ny = ui->widget->height();
-
-
-//        if(world!=NULL)
-//            delete world;
-
-//        world = build_checker_scene(ui->num_diffuse->value(),
-//                                              ui->num_glass->value(),
-//                                              ui->num_metal->value());
-
-        if(world==NULL)
-            world = build_cornell_box();
-
-        vec3 camera_center = vec3(ui->camera_x->value(),
-                                  ui->camera_y->value(),
-                                  ui->camera_z->value());
-        vec3 look_at       = vec3(ui->point_x->value(),
-                                  ui->point_y->value(),
-                                  ui->point_z->value());
-//        camera cam(camera_center,look_at,vec3(0,1,0),
-//                   90,float(nx)/float(ny),.01,(camera_center-look_at).length(),0,1);
-        camera cam(camera_center,look_at,vec3(0,1,0),
-                   40,float(nx)/float(ny),0.0,10,0,1);
-
-        //setup header for PPM file
-        stream << "P3\n" << nx << " " << ny << "\n255\n";
-
-        for(int j = ny -1; j >= 0; j--)
-        {
-            for(int i = 0; i <nx; i++)
-            {
-                int aa_samples = ui->num_samples->value();
-                vec3 col(0,0,0);
-                for(int g = 0; g < aa_samples; g++)
-                {
-                    srand(j*i*g);
-                    float u = (float(i + (float)rand()/(float)RAND_MAX)) / float(nx);
-                    float v = (float(j + (float)rand()/(float)RAND_MAX)) / float(ny);
-
-                    ray r = cam.get_ray(u,v);
-                    //                    vec3 p   = r.point_at_parameter(2.0);
-                    col += color(r,world,0);
-
-                }
-
-                col /= aa_samples;
-                col = vec3(sqrt(col[0]),sqrt(col[1]),sqrt(col[2]));
-                int ir = int(255.99*col[0]);
-                int ig = int(255.99*col[1]);
-                int ib = int(255.99*col[2]);
-
-                stream << ir << " " << ig << " " << ib << "\n";
-            }
-        }
-    }
-    file.close();*/
+    ui->pushButton->setDisabled(true);
 
     if(world != NULL)
         delete world;
@@ -204,7 +139,7 @@ void MainWindow::raytrace()
                           ui->point_y->value(),
                           ui->point_z->value());
 
-    ui->pushButton->setDisabled(true);
+
 }
 
 //===================================================================
